@@ -1,0 +1,126 @@
+#register{
+    display: grid;
+    background: var(--bg);
+    background-size: 35%;
+    place-items: center;
+    min-height: 100vh;
+    
+}
+
+#title{
+    font-size: 32px;
+    font-weight: var(--reg);
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.form{
+    display: grid;
+    background-color: var(--mainbg);
+    width: auto;
+    height: auto;
+    place-items: center;
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+}
+
+.logo {
+    margin: 1.5em 0 1em;
+    width: 10em;
+    text-align: center;
+}
+
+.inputbox{
+    height: 1em;
+    width: 15em;
+    border-radius: 10px;
+    border-color: var(--subfc);
+    border-width: 1px;
+    border-style: solid;
+    padding: 20px;
+    font-size: var(--fs);
+}
+#email{
+    margin-bottom: 1em;
+}
+#username{
+    margin-bottom: 1em;
+}
+.userinfo{
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+}
+.pass{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+}
+.showhide{
+    justify-self: center;
+    border-style: none;
+    background-color: transparent;
+    width: auto;
+    margin-left: -3em;
+    padding-top: 0;
+}
+.show{
+    width: 2em;
+    margin: 0;
+    padding: 0;
+}
+
+#password{
+    margin-bottom: 0.3em;
+}
+#checker{
+    margin:0 0 1em 0;
+}
+#confpass{
+    margin-bottom: 0.3em;
+}
+
+.strength{
+    font-size: 12px;
+    list-style-type: none;
+    justify-self: start;
+    margin: 0 2em 0;
+    color: var(--subfc);
+}
+
+.inputbox:focus{
+    outline: none;
+}
+
+.reminder{
+    color: var(--subfc);
+    font-size: 12px;
+    justify-self: start;
+    margin: 0 2.5em 0;
+}
+
+.submit {
+    color: var(--fc);
+    font-size: 1em;
+    font-weight: var(--bold);
+    background-color: var(--bc);
+    border-radius: 10em;
+    border-style: none;
+    height: 4em;
+    width: 11em;
+    text-align: center;
+    justify-self: start;
+    margin: 1em 4em 2em;
+    box-shadow: var(--shadow);
+}
+
+.submit:hover{
+    background-color: var(--hc);
+}
+
+.submit:active{
+    background-color: #347db1;
+}

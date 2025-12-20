@@ -27,6 +27,7 @@ app.post("/register_account", async (req, res) => {
         message: "username/email already exist"
       });
     }
+
     const user = new User({
       username: req.body.username,
       email: req.body.email,
@@ -47,6 +48,30 @@ app.post("/register_account", async (req, res) => {
       });
     }
     res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { user, password } = req.body;
+
+  try {
+    const userExist = await User.findOne({
+      $or: [{ email: user }, { username: user }]
+    });
+
+    if (!userExist){
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (userExist.password !== password) {
+      return res.status(401).json({ error: "Incorrect password" })
+    }
+
+    res.json({ message: "Login successful" });
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server Error" });
   }
 });
 

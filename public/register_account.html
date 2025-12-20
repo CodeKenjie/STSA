@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="/public/css/imgs/mainlogo.png">
     <link rel="stylesheet" href="/public/css/style.css">
 </head>
-<body class="register">
+<body id="register">
     <form id="form" class="form">
         <div class="userinfo">
             <a class="logo" href="/public/mainpage.html"><img class="logo" src="/public/css/imgs/mainlogo.png"></a>
@@ -19,7 +19,7 @@
         </div>
         <p id="warning" class="reminder">*Password must contain at least 6 characters</p>
         <div class="pass">
-            <input id="password" class="inputbox" type="password" placeholder="Password" required><button class="showhide" onclick="passShowHide()"><img id="psh" class="show" src="/public/css/imgs/show.png"></button>
+            <input id="password" class="inputbox" type="password" placeholder="Password" required><button class="showhide" type="button" onclick="showHide('psh', 'password')"><img id="psh" class="show" src="/public/css/imgs/show.png"></button>
         </div>
         <ul id="checker" class="strength">
             <li id="length" class="strength">6 characters or longer</li>
@@ -28,16 +28,16 @@
         </ul>
         <p id="error" class="reminder">*Password donsn't match</p>
         <div class="pass">
-            <input id="confpass" class="inputbox" type="password" placeholder="Confirm Password" required><button class="showhide" onclick="confPassShowHide()"><img id="cpsh" class="show" src="/public/css/imgs/show.png"></button>
+            <input id="confpass" class="inputbox" type="password" placeholder="Confirm Password" required><button class="showhide" type="button" onclick="showHide('cpsh', 'confpass')"><img id="cpsh" class="show" src="/public/css/imgs/show.png"></button>
         </div>
         <p id="unchecked" class="reminder">*you must accept the terms and condition</p>
         <label class="reminder">
             <input id="accept" class="accept" type="checkbox" value="accept" required>I accept the <a href="">terms and condition</a>
         </label>
-        <button id="register" class="submit" type="submit">Create Account</button>
+        <button class="submit" type="submit">Create Account</button>
         <a class="otheroption" href="/public/login.html">I already have an account</a>
         <a class="otheroption" href="/public/mainpage.html">I want to know more</a>
-        <script src="/public/js/script.js"></script>
+        <script src="/public/js/script.js" defer></script>
     </form> 
 </body>
 </html>
