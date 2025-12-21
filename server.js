@@ -1,8 +1,14 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/Users");
 
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:5500"
+}));
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
@@ -64,11 +70,11 @@ app.post("/login", async (req, res) => {
     }
 
     if (userExist.password !== password) {
-      return res.status(401).json({ error: "Incorrect password" })
+      return res.status(401).json({ error: "Incorrect password" });
     }
 
     res.json({ message: "Login successful" });
-    
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server Error" });
