@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
                 document.getElementById("warning").classList.add("hidden");
 
-            fetch("/register_account", {
+            fetch("http://localhost:3000/register_account", {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json"
