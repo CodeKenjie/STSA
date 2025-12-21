@@ -135,5 +135,26 @@ document.addEventListener("DOMContentLoaded", function(){
             .catch(err => console.error("Fetch error:", err));
         });
     }
+
+    const stsa = document.getElementById("stsa");
+    if(stsa) {
+        const menu = document.querySelector(".hamburger");
+        const sidebar = document.querySelector(".sidebar");
+        menu.addEventListener("click", () => {
+            menu.classList.toggle("rotate");
+            sidebar.classList.toggle("open");
+        });
+
+        const bell = document.querySelector(".bell");
+        const ibell = document.querySelector(".bell img");
+        const notif = document.querySelector(".notif");
+        const close = document.querySelector(".close");
+
+        bell.addEventListener("click", () => {
+            notif.classList.toggle("open");
+            ibell.classList.toggle("open");
+            close.classList.toggle("open");
+        });
+    }
 });
 

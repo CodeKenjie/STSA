@@ -2,16 +2,17 @@
 @import url('register.css');
 @import url('login.css');
 @import url('index.css');
+@import url('keyframes.css');
 
 :root{
     --fc: white;
     --fs: 20px;
-    --bfs: 20px;
+    --bfs: 18px;
     --reg: 400;
     --mid: 500;
     --bold: 700;
     --bg: rgba(16, 17, 46, 0.75);
-    --mainbg: rgba(255, 255, 255, 0.85);
+    --mainbg: rgba(255, 255, 255, 0.80);
     --bc: #48B0FA;
     --hc: #6ac1ff;
     --ab: #1f5074;
@@ -31,7 +32,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 *, *::before, *::after {
@@ -49,9 +50,4 @@ h1, h2, h3 {
 
 .hidden{
     display: none;
-}
-
-.otheroption{
-    justify-self: start;
-    margin: 0 5em 1em;
 }

@@ -80,9 +80,6 @@
 #checker{
     margin:0 0 1em 0;
 }
-#confpass{
-    margin-bottom: 0.3em;
-}
 
 .strength{
     font-size: 12px;
@@ -100,7 +97,11 @@
     color: var(--subfc);
     font-size: 12px;
     justify-self: start;
-    margin: 0 2.5em 0;
+    margin: 0 3.5em 0;
+}
+
+#tnc{
+    margin-top: 5em;
 }
 
 .submit {
@@ -112,9 +113,8 @@
     border-style: none;
     height: 4em;
     width: 11em;
-    text-align: center;
     justify-self: start;
-    margin: 1em 4em 2em;
+    margin: .5em 2em 3em;
     box-shadow: var(--shadow);
 }
 
@@ -124,4 +124,11 @@
 
 .submit:active{
     background-color: #347db1;
+}
+
+.options{
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 2em -4em;
+    gap: 10px;
 }

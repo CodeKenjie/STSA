@@ -31,12 +31,14 @@
             <input id="confpass" class="inputbox" type="password" placeholder="Confirm Password" required><button class="showhide" type="button" onclick="showHide('cpsh', 'confpass')"><img id="cpsh" class="show" src="/public/css/imgs/show.png"></button>
         </div>
         <p id="unchecked" class="reminder">*you must accept the terms and condition</p>
-        <label class="reminder">
+        <label id="tnc" class="reminder">
             <input id="accept" class="accept" type="checkbox" value="accept" required>I accept the <a href="">terms and condition</a>
         </label>
         <button class="submit" type="submit">Create Account</button>
-        <a class="otheroption" href="/public/login.html">I already have an account</a>
-        <a class="otheroption" href="/public/mainpage.html">I want to know more</a>
+        <div class="options">
+            <a class="otherOption" href="/public/login.html">I already have an account</a>
+            <a class="otherOption" href="/public/mainpage.html">I want to know more</a>
+        </div>
         <script src="/public/js/script.js" defer></script>
     </form> 
 </body>

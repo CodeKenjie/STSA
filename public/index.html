@@ -7,56 +7,66 @@
     <link rel="icon" type="image/png" href="css/imgs/mainlogo.png">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="stsa">
+<body id="stsa">
+    <button class="hamburger">
+        <img src="css/imgs/Hamburger_icon.png" alt="menu">
+    </button>
     <aside class="sidebar">
-        <img class="menu" src="css/imgs/Hamburger_icon.png" alt="">
-        <div id="dp" class="picture"><img class="picture" src="css/imgs/profile.png"></div>
-        <div class="info">  
+        <div id="frame">
+            <img class="picture" src="/public/css/imgs/profile.png" alt="" role="button">
+        </div>
+        <div class="profile">
+            <div class="ediv">
+                <a href="/public/profile.html"><img class="edit" src="/public/css/imgs/edit.png" alt=""></a>
+            </div>
             <h3 class="info">Username</h3>
             <h3 class="info">School</h3>
             <h3 class="info">Year & Course</h3>
             <h3 class="info">Email</h3>
         </div>
         <div class="settings">
-            <a  class="contact" href="mainpage.html">about us</a>
+            <a class="contact" href="">Settings</a>
+            <a  class="contact" href="mainpage.html">About us</a>
+            <a  class="contact" href="">Support us</a>
         </div>
     </aside>
     <div class="supermain">
         <main class="main">
             <div class="subsect">
-                <div class="sections">
-                    <div class="sect">
-                        <h3 class="feature">To Do</h3>
-                        <h3 class="feature">due:</h3>
+                <div id="todd" class="sections">
+                    <div class="subtitle">
+                        <h3 class='feature'>ToDo</h3>
+                        <img id="todoMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
                         <button class="add">+<input class="input" type="text" placeholder="Add"></button>
-                        <input type="datetime-local" class="date">
-                        <div>
+                        <input id="todoDate"type="datetime-local" class="date">
+                        <div class="sub">
                             <ul class="task"></ul>
                         </div>
                     </div>
                 </div>
-                <div class="sections">
-                    <div class="sect">
-                        <h3 class="feature">Schedule</h3>
-                        <h3 class="feature">time & date:</h3>
+                <div id="sched" class="sections">
+                    <div class="subtitle">
+                        <h3 class='feature'>Schedule</h3>
+                        <img id="schedMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
                         <button class="add">+<input class="input" type="text" placeholder="Add"></button>
-                        <input type="datetime-local" class="date">
-                        <div>
+                        <input id="schedDate" type="datetime-local" class="date">
+                        <div class="sub">
                             <ul class="task"></ul>
                         </div>
                     </div>
                 </div>
-                <div class="sections">
-                    <div class="sect">
-                        <h3 class="feature">Modules</h3>
+                <div id="module" class="sections">
+                    <div class="subtitle">
+                        <h3 class='feature'>Modules</h3>
+                        <img id="moduleMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
                         <button class="add">+<input class="input"  type="text" placeholder="Add"></button>
-                        <div>
+                        <div class="sub">
                             <ul class="task"></ul>
                         </div>
                     </div>
@@ -64,17 +74,33 @@
             </div>
             <div class="subsect2">
                 <div class="announce">
-                    <h3 class='feature'>Announcements</h3>
-                    <div class="messages">
-
+                    <div class="subtitle">
+                        <h3 class='feature'>Announcements</h3>
+                        <img id="announceMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
+                    <div class="messages">
+                        <button class="class">Join Class</button>
+                        <button class="class">Create Class</button>
+                    </div>
+                    <br>
                     <div class="message">
                         <textarea id="message" rows="1" cols="30" placeholder="Announcement"></textarea>
-                        <button class="send">send</button>
+                        <button class="send"><img class="sendimg" src="/public/css/imgs/send.png"></button>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+    <button class="bell">
+        <img class="op" src="css/imgs/notification.png" alt="notif">
+        <img class="close" src="css/imgs/close.png" alt="close">
+    </button>
+    <aside class="notif">
+        <h3 class="feature">Notifications</h3>
+        <div id="notification">
+
+        </div>
+    </aside>
+    <script src="/public/js/script.js" defer></script>
 </body>
 </html>

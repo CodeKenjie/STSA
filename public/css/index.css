@@ -1,45 +1,130 @@
 
-.stsa{
+#stsa{
     display: flex;
-    background: var(--bg) url("imgs/mainbg.png") no-repeat center right fixed;
+    background: var(--bg);
     background-size: 30%;
 }
 
 .sidebar{
-    display: grid;
-    grid-template-rows: 0.1fr .3fr;
-    position: sticky;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
     top:0;
-    min-width: 25vh;
+    left: 0;
+    width: 1000px;
     height: 100vh;
     background-color: var(--solidbg);
+    z-index: 1;
+    box-shadow: var(--shadow);
+    transform: translateX(-95%);
+    transition: transform 0.3s ease, width 0.3s ease;
+}
+
+.sidebar.open{
+    width: 335px;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+}
+
+#frame{
+    margin-top: 5em;
+    position: relative;
+    display: grid;
+    justify-content: center;
+    padding: 1em;
+    z-index: -1;
 }
 
 .picture{
-    align-self: center;
+    width: 15em;
+    display: flex;
+    justify-content: center;
     clip-path: circle();
-    width: 20vh;
 }
 
-#dp{
-    justify-self: center;
-}
 .menu {
-    width: 30px;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.hamburger {
+    background-color: transparent;
+    border-style: none;
+    border-radius: 20em;
+    width: fit-content;
     height: fit-content;
-    margin: 10px;
+    margin: 5px;
     cursor: pointer;
+    z-index: 2;
+}
+
+.hamburger img{
+    width: 2em;
+    height: 2em;
+}
+
+.hamburger.rotate{
+    animation: spin 0.3s;
+}
+
+#todoMenu{
+    margin-left: 32em;
+}
+
+#schedMenu{
+    margin-left: 29.8em;
+}
+
+#moduleMenu{
+    margin-left: 30.3em;
+}
+
+#announceMenu{
+    margin-left: 25em;
+}
+
+#todoDate{
+    margin-left: 1.1em;
+}
+
+#schedDate{
+    margin-left: 1.1em;
+}
+
+.profile{
+    padding: 0 4em;
+    height: 40%;
+}
+.ediv {
+    display: flex;
+    justify-content: end;
+
+}
+.edit{
+    background-color: var(--solidbg);
+    border-radius: 5px;
+    padding: 2px;
+    height: 1.5em;
+    opacity: 50%;
 }
 
 .info{
     justify-self: start;
     width: fit-content;
-    margin: 0 1em 0.5em;
+    height: fit-content;
+    margin: 0 0 0.5em 0;
+}
+
+.settings{
+    display: grid;
+    padding: 1em 4em;
+    gap: 5px;
 }
 
 .supermain{
     width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: center;
 }
 
@@ -49,35 +134,46 @@
     gap: 1em;
 }
 
+.contact{
+    color: black;
+    opacity: 50%;
+    text-align: center;
+    font-size: var(--fs);
+    font-weight: var(--mid);
+}
+
+.contact:hover{
+    opacity: 70%;
+    background-color: var(--hc);
+}
+
 .subsect{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 3em;
+    gap: 4vh;
 }
 .sections{
     background-color: var(--solidbg);
     border-radius: 3px;
     box-shadow: var(--shadow);
-}
-.sect{
-    display: flex;
-    padding: 10px;
-}
-
-.minsect{
-    padding: 0.5em;
+    height: fit-content;
+    padding: .5em;
+    animation: right-slide 1s ease;
 }
 
-.minsect div{
-    border-radius: 2px;
-    height: 10em;
-    overflow: auto;
+.sections:hover{
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
 }
+
 .feature{
-    width: 6em;
+    margin: 0;
+    width: fit-content;
+    text-align: center;
+    height: fit-content;
     font-weight: var(--reg);
-    margin: 0.1em 10em 0 0.5em;
+    padding: 5px;
 }
 
 .add{
@@ -152,23 +248,35 @@
     flex-direction: column;
     justify-content: center;
     height: 100vh;
+    animation: left-slide 1s ease;
 }
+
 .announce{
     background-color: var(--solidbg);
     height: fit-content;
     border-radius: 3px;
     box-shadow: var(--shadow);
+    padding: 0.5em;
 }
-
+.subtitle {
+    display: flex;
+}
 .messages{
-    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--subcolor);
+    height: 80vh;
+    width: auto;
     overflow: auto;
+    border-radius: 3px;
+    padding: 5px;
+    gap: 20px;
 }
 
 .message{
     display: flex;
     justify-content: center;
-    padding: 0.5em;
     height: auto;
 }
 
@@ -178,12 +286,131 @@
     border-radius: 5px;
     border-style: none;
     padding: 0.5em;
-    margin: 5px;
-    width: 25em;
+    width: 29em;
     resize: none;
     overflow-wrap: break-word;
     white-space: pre-wrap;
 }
 #message:focus{
     outline: none;
+}
+
+.send{
+    margin: 0;
+    padding: 0.5em;
+    width: fit-content;
+    background-color: transparent;
+    border-style: none;
+}
+
+.sendimg{
+    width: 2em;
+    font-weight: 900;
+    opacity: 50%;
+}
+
+.sendimg:hover{
+    opacity: 100%;
+}
+
+.sendimg:active{
+    opacity: 50%;
+}
+
+.task {
+    overflow: auto;
+}
+
+.sub{
+    background-color: var(--subcolor);
+    border-radius: 3px;
+    margin-top: 10px;
+    overflow: auto;
+    height: 8.7vw;
+}
+
+.class{
+    color: var(--fc);
+    background-color: var(--bc);
+    align-self: center;
+    width: 10em;
+    font-size: var(--fs);
+    font-weight: var(--reg);
+    border-style: none;
+    border-radius: 20em;
+    padding: 1em;
+}
+
+.class:hover{
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    background-color: var(--hc);
+}
+.class:active{
+    background-color: var(--ab);
+}
+
+.notif{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--solidbg);
+    top: 0;
+    right: 0;
+    bottom: 5em;
+    position: fixed;
+    box-shadow: var(--shadow);
+    z-index: 1;
+    width: 500px;
+    height: 100%;
+    max-width: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease, max-width 0.2s ease, padding 0.3s ease;
+}
+
+.notif.open {
+    max-width: 100%;
+    max-height: 100%;
+    padding: 5px;
+}
+
+.bell {
+    background-color: var(--solidbg);
+    border-radius: 0.5em;
+    border-style: none;
+    margin: 5px;
+    z-index: 2;
+    height: fit-content;
+    width: fit-content;
+}
+
+.op{
+    border-radius: 1em;
+    width: 2.5em;
+    height: 2.5em;
+
+}
+
+.close{
+    display: none;
+}
+
+.op.open{
+    display: none;
+}
+
+.close.open {
+    display: block;
+    margin: 5px;
+    width: 1.5em;
+    height: 1.5em;
+    transition: display 0.3s ease,;
+}
+
+#notification{
+    background-color: var(--subcolor);
+    height: 100vh;
+    width: auto;
+    border-radius: 3px;
+    overflow: auto;
 }
