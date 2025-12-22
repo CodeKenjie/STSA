@@ -51,6 +51,11 @@ document.addEventListener("DOMContentLoaded", function(){
         });    
     }
 
+    const index = document.getElementById("index");
+    if (index) {
+        
+    }
+
     const register = document.getElementById('register');
     if (register){
         document.getElementById("length").classList.add("hidden");

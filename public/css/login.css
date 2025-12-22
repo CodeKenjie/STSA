@@ -14,6 +14,7 @@
     place-items: center;
     border-radius: 3px;
     box-shadow: var(--shadow);
+    animation: right-slide 1s ease;
 }
 
 .login_logo{
@@ -43,6 +44,7 @@
 }
 
 #Password{
+    padding-right: 45px;
     margin-bottom: 5px;
 }
 #enter{

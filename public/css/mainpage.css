@@ -109,11 +109,22 @@
     animation: appear 2s ease;
 }
 
+.title:hover {
+    transform: scale(1.1) translate(50px);
+    transition: transform .5s ease;
+}
+
 .about{
     width: 60%;
     margin: 5em 0 5em 2em;
     text-shadow: var(--shadow);
     cursor: default;
+    z-index: 2;
+}
+
+.about:hover{
+    transform: scale(1.1) translate(50px);
+    transition: transform .5s ease;
 }
 
 .about_title{
