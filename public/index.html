@@ -8,21 +8,23 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body id="stsa">
-    <button class="hamburger">
-        <img src="css/imgs/Hamburger_icon.png" alt="menu">
-    </button>
     <aside class="sidebar">
+        <div class="menubar">
+            <button class="hamburger">
+                <img class="imenu" src="css/imgs/Hamburger_icon.png" alt="menu">
+            </button>
+        </div>
         <div id="frame">
             <img class="picture" src="/public/css/imgs/profile.png" alt="" role="button">
         </div>
         <div class="profile">
-            <div class="ediv">
-                <a href="/public/profile.html"><img class="edit" src="/public/css/imgs/edit.png" alt=""></a>
-            </div>
-            <h3 class="info">Username</h3>
-            <h3 class="info">School</h3>
-            <h3 class="info">Year & Course</h3>
-            <h3 class="info">Email</h3>
+            <ul class="infoBox">
+                <li class="info">username</li>
+                <li class="info">email</li>
+                <li class="info">school</li>
+                <li class="info">year</li>
+                <li class="info">course</li>
+            </ul>
         </div>
         <div class="settings">
             <a class="contact" href="">Settings</a>
@@ -35,7 +37,7 @@
             <div class="subsect">
                 <div id="todd" class="sections">
                     <div class="subtitle">
-                        <h3 class='feature'>ToDo</h3>
+                        <h3 class='feature'>To Do</h3>
                         <img id="todoMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
@@ -91,12 +93,17 @@
             </div>
         </main>
     </div>
-    <button class="bell">
-        <img class="op" src="css/imgs/notification.png" alt="notif">
-        <img class="close" src="css/imgs/close.png" alt="close">
-    </button>
+    <div class="chooser">
+        <button class="icon">
+            <img class="op" src="css/imgs/notification.png" alt="notif">
+            <img class="close" src="css/imgs/close.png" alt="close">
+        </button>
+        <a id="profileIcon" class="icon" href="/public/profile.html">
+            <img class="profIcon" src="/public/css/imgs/profile-icon.png" alt="profile">
+        </a>
+    </div>
     <aside class="notif">
-        <h3 class="feature">Notifications</h3>
+        <h3 id="notifTitle" class="feature">Notifications</h4>
         <div id="notification">
 
         </div>

@@ -3,6 +3,7 @@
     display: flex;
     background: var(--bg);
     background-size: 30%;
+    overflow: hidden;
 }
 
 .sidebar{
@@ -11,40 +12,49 @@
     position: fixed;
     top:0;
     left: 0;
-    width: 1000px;
+    width: 400px;
     height: 100vh;
     background-color: var(--solidbg);
     z-index: 1;
     box-shadow: var(--shadow);
-    transform: translateX(-95%);
-    transition: transform 0.3s ease, width 0.3s ease;
+    transform: translateX(-87%);
+    transition: transform .1s ease;
+    animation: menuAnimation 1s;
 }
 
 .sidebar.open{
-    width: 335px;
     transform: translateX(0);
-    transition: transform 0.3s ease;
+    transition: transform .1s ease;
 }
 
 #frame{
-    margin-top: 5em;
     position: relative;
+    width: auto;
     display: grid;
     justify-content: center;
     padding: 1em;
     z-index: -1;
 }
 
-.picture{
-    width: 15em;
-    display: flex;
-    justify-content: center;
-    clip-path: circle();
-}
-
 .menu {
     width: 1.5em;
     height: 1.5em;
+}
+
+.menubar{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: auto;
+    height: fit-content;
+    transform: translateX(87%);
+    transition: transform 0.1s ease;
+}
+
+.menubar.open {
+    transform: translateX(0);
+    transition: transform 0.1s ease;
 }
 
 .hamburger {
@@ -58,13 +68,9 @@
     z-index: 2;
 }
 
-.hamburger img{
+.imenu{
     width: 2em;
     height: 2em;
-}
-
-.hamburger.rotate{
-    animation: spin 0.3s;
 }
 
 #todoMenu{
@@ -92,27 +98,10 @@
 }
 
 .profile{
-    padding: 0 4em;
-    height: 40%;
-}
-.ediv {
     display: flex;
-    justify-content: end;
-
-}
-.edit{
-    background-color: var(--solidbg);
-    border-radius: 5px;
-    padding: 2px;
-    height: 1.5em;
-    opacity: 50%;
-}
-
-.info{
-    justify-self: start;
-    width: fit-content;
-    height: fit-content;
-    margin: 0 0 0.5em 0;
+    flex-direction: row;
+    justify-content: center;
+    height: 40%;
 }
 
 .settings{
@@ -173,6 +162,7 @@
     text-align: center;
     height: fit-content;
     font-weight: var(--reg);
+    font-size: var(--fs);
     padding: 5px;
 }
 
@@ -331,7 +321,7 @@
 
 .class{
     color: var(--fc);
-    background-color: var(--bc);
+    background-color: var(--subfc);
     align-self: center;
     width: 10em;
     font-size: var(--fs);
@@ -344,7 +334,7 @@
 .class:hover{
     transform: scale(1.05);
     transition: transform 0.3s ease;
-    background-color: var(--hc);
+    background-color: var(--bc);
 }
 .class:active{
     background-color: var(--ab);
@@ -374,39 +364,86 @@
     padding: 5px;
 }
 
-.bell {
+.chooser{
+    margin: 0.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    gap: 10px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.icon {
     background-color: var(--solidbg);
-    border-radius: 0.5em;
+    align-items: center;
+    justify-self: center;
     border-style: none;
-    margin: 5px;
-    z-index: 2;
     height: fit-content;
     width: fit-content;
+    border-radius: 10%;
+    box-shadow: var(--shadow);
+    padding: 5px;
+    z-index: 2;
+}
+
+.icon:hover{
+    transform: scale(1.2);
+    transition: transform .03s ease;
 }
 
 .op{
-    border-radius: 1em;
-    width: 2.5em;
-    height: 2.5em;
-
+    border-radius: 10%;
+    width: var(--is);
+    height: var(--is);
+    position: relative;
+    animation: bell-appear 1s ease forwards;
 }
 
 .close{
-    display: none;
+    max-width: 0;
+    max-height: 0;
+    overflow: hidden;
+    position: absolute;
 }
 
-.op.open{
-    display: none;
+.op.close{
+    max-width: 0;
+    max-height: 0;
+    overflow: hidden;
+    position: absolute;
+    animation: spin 1s ease;
 }
 
 .close.open {
-    display: block;
-    margin: 5px;
-    width: 1.5em;
-    height: 1.5em;
-    transition: display 0.3s ease,;
+    max-width: 100%;
+    max-height: 100%;
+    position: relative;
+    padding: 2px;
+    width: var(--is);
+    height: var(--is);
+    animation: spin 1s ease;
 }
 
+#profileIcon{
+    z-index: 1;
+}
+
+.profIcon{
+    align-self: center;
+    border-radius: 10%;
+    width: var(--is);
+    height: var(--is);
+    position: relative;
+    animation: spin-left-appear 1s ease;
+}
+#notifTitle{
+    font-size: 2em;
+    margin: 5px;
+}
 #notification{
     background-color: var(--subcolor);
     height: 100vh;

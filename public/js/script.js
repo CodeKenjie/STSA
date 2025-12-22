@@ -138,21 +138,21 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const stsa = document.getElementById("stsa");
     if(stsa) {
-        const menu = document.querySelector(".hamburger");
+        const menu = document.querySelector(".menubar");
         const sidebar = document.querySelector(".sidebar");
         menu.addEventListener("click", () => {
-            menu.classList.toggle("rotate");
             sidebar.classList.toggle("open");
+            menu.classList.toggle("open");
         });
 
-        const bell = document.querySelector(".bell");
-        const ibell = document.querySelector(".bell img");
+        const bell = document.querySelector(".icon");
+        const ibell = document.querySelector(".icon img");
         const notif = document.querySelector(".notif");
         const close = document.querySelector(".close");
 
         bell.addEventListener("click", () => {
             notif.classList.toggle("open");
-            ibell.classList.toggle("open");
+            ibell.classList.toggle("close");
             close.classList.toggle("open");
         });
     }

@@ -1,0 +1,129 @@
+#profile{
+    background-color: var(--bg);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 100vh;
+}
+
+.profileForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--solidbg);
+    box-shadow: var(--shadow);
+    border-radius: 3px;
+    width: auto;
+    height: 95vh;
+    overflow: auto;
+}
+
+.background {
+    background: rgb(207, 77, 77);
+    width: 50em;
+    height: 20em;
+    animation: right-slide 1s ease;
+    z-index: 1;
+}
+
+.picture{
+    width: 15em;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    border: solid;
+    border-width: 5px;
+    border-color: var(--solidbg);
+    box-shadow: var(--shadow);
+    z-index: 2;
+    animation: spin-right-appear 1s ease;
+}
+
+.picture:hover{
+    transform: scale(1.1);
+    transition: transform .5s ease;
+}
+
+.dp{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    justify-content: center;
+    background-color: transparent;
+    margin-top: -120px;
+    margin-bottom: 3em;
+}
+
+.info{
+    font-size: var(--fs);
+    font-weight: var(--mid);
+    justify-self: start;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 0 0.5em 0;
+    list-style: none;
+    animation: right-slide 1s ease-in;
+}
+
+.info:hover{
+    transform: scale(1.1);
+    transition: transform .5s ease;
+}
+
+.userInfo{
+    display: flex;
+    justify-content: center;
+    animation: left-slide 1s ease;
+}
+
+.infoBox{
+    box-shadow: var(--shadow);
+    width: 75%;
+    height: fit-content;
+    padding: 1em;
+    animation: right-slide 1s ease-in;
+}
+
+
+.infoBox:hover{
+    transform: scale(1.05);
+    transition: transform .5s ease;
+}
+
+.ediv {
+    display: flex;
+    justify-content: end;
+
+}
+
+.edit{
+    background-color: var(--solidbg);
+    border-radius: 5px;
+    padding: 2px;
+    height: 1.5em;
+    opacity: 50%;
+}
+
+.edit:hover{
+    transform: scale(1.1);
+    transition: transform .5s ease;
+}
+
+#home{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    animation: rigth-slid 1s ease;
+}
+
+#homeIcon{
+    width: var(--is);
+    height: var(--is);
+    animation: spin-right-appear 1s ease;
+}

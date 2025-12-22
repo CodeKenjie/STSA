@@ -3,8 +3,10 @@
 @import url('login.css');
 @import url('index.css');
 @import url('keyframes.css');
+@import url('profile.css');
 
 :root{
+    --is: 30px;
     --fc: white;
     --fs: 20px;
     --bfs: 18px;
