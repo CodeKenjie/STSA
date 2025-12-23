@@ -11,10 +11,19 @@
     <a id="home" class="icon" href="/public/index.html">
         <img id="homeIcon" src="/public/css/imgs/home.png" alt="home">
     </a>
-    <form class="profileForm">
+    <form id="info" class="profileForm">
         <div class="box">
             <div class="background">
-                <br>
+                <img src="/public/css/imgs/coverphoto.jfif" alt="background">
+            </div>
+            <div class="uploadDropDown">
+                <button id="cameradd" class="camera" type="button">
+                    <img class="cameraIcon" src="/public/css/imgs/camera.png" alt="imgs">
+                </button>
+                <div id="uploads" class="udd">
+                    <input type="file">
+                    <input type="file">
+                </div>
             </div>
             <div class="dp">
                 <img class="picture" src="/public/css/imgs/profile.png" alt="picture">
@@ -22,19 +31,29 @@
             <div class="userInfo">
                 <ul class="infoBox">
                     <div class="ediv">
-                        <a href="/public/profile.html"><img class="edit" src="/public/css/imgs/edit.png" alt="profile"></a>
+                        <button id="edit" class="edit" type="button"><img id="editIcon" src="/public/css/imgs/edit.png" alt="profile"></button>
                     </div>
-                    <li class="info">username</li>
-                    <li class="info">email</li>
-                    <li class="info">age</li>
-                    <li class="info">birthdate</li>
-                    <li class="info">school</li>
-                    <li class="info">year</li>
-                    <li class="info">course</li>
+                    <p id="lname" class="label">Username</p>
+                    <li id="name" class="info"></li>
+                    <p id="lemail" class="label">Email</p>
+                    <li id="email" class="info"></li>
+                    <p id="lbd" class="label">Birth date</p>
+                    <p id="birthdate" class="info"></p>
+                    <p id="lschool" class="label">School</p>
+                    <li id="school" class="info"></li>
+                    <p id="lyear" class="label">Year level</p>
+                    <li id="year" class="info"></li>
+                    <p id="lcourse" class="label">Course</p>
+                    <li id="course" class="info"></li>
+                    <p id="lverify" class="label">Verified: </p><p id="verification" class="label"></p>
+                    <div id="scBtn">
+                        <button id="save" class="saveBtn" type="submit">save</button>
+                        <button id="cancel" class="saveBtn" type="button">cancel</button>
+                    </div>
                 </ul>
             </div>
         </div>
     </form>
-    <script src="/public/js/script.js"></script>
+    <script src="/public/js/script.js" defer></script>
 </body>
 </html>

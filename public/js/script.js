@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 const data = await response.json();
 
                 if (response.ok) {
+                    localStorage.setItem("token", data.token);
                     window.location.href = "index.html";
                 } else {
                     if (data.error === "User not found") {
@@ -51,9 +52,161 @@ document.addEventListener("DOMContentLoaded", function(){
         });    
     }
 
-    const index = document.getElementById("index");
+    const index = document.getElementById("stsa");
     if (index) {
-        
+        const profile = document.getElementById("sidebar");
+        if (profile) {
+            const name = document.getElementById("name");
+            const email = document.getElementById("email");
+            const school = document.getElementById("school");
+            const year = document.getElementById("year");
+            const course = document.getElementById("course");
+            const verification = document.getElementById("verification");
+
+            async function getUser() {
+                const token = localStorage.getItem("token");
+
+                if(!token) {
+                    console.log("No token found. Please Login first");
+                    return;
+                }
+
+                try{
+                    const res = await fetch("http://localhost:3000/index", {
+                        headers: {
+                            Authorization: "Bearer " + token
+                        }
+                    });
+
+                    if (!res.ok) {
+                        name.textContent = "Please log in";
+                    }
+
+                    const user = await res.json();
+
+                    name.textContent = user.username;
+                    email.textContent = user.email;
+                    school.textContent = user.school;
+                    year.textContent = user.year;
+                    course.textContent = user.course;
+                    if(user.verified){
+                        verification.textContent = "verified";
+                        verification.style.color = "green";
+                    } else {
+                        verification.textContent = "not verified";
+                        verification.style.color = "red";
+                    }
+                    
+                } catch (err) {
+                    console.error(err);
+                }  
+            }
+            getUser();
+        }
+    }
+
+    const profile = document.getElementById("profile");
+
+    if (profile) {
+        const save = document.getElementById("save");
+        const cancel = document.getElementById("cancel");
+        const upload = document.getElementById("uploads");
+        const cameradd = document.getElementById("cameradd");
+        save.classList.add("hidden");
+        cancel.classList.add("hidden");
+        upload.classList.add("hidden");
+        cameradd.classList.add("hidden");
+        const info = document.getElementById("info");
+
+        if (info) {
+            const name = document.getElementById("name");
+            const birthdate = document.getElementById("birthdate");
+            const email = document.getElementById("email");
+            const school = document.getElementById("school");
+            const year = document.getElementById("year");
+            const course = document.getElementById("course");
+            const verification = document.getElementById("verification");
+
+            async function getUser() {
+                const token = localStorage.getItem("token");
+
+                if(!token){
+                    console.log("No token found. Please Login first");
+                    return;
+                }
+
+                try {
+                    const res = await fetch("http://localhost:3000/index", {
+                        headers: {
+                            Authorization: "Bearer " + token
+                        }
+                    });
+
+                    if (!res.ok) {
+                        name.textContent = "Please log in";
+                    }
+
+                    const user = await res.json();
+
+                    name.textContent = user.username;
+                    email.textContent = user.email;
+                    birthdate.textContent = user.birthdate;
+                    email.textContent = user.email;
+                    school.textContent = user.school;
+                    year.textContent = user.year;
+                    course.textContent = user.course;
+                    if(user.verified){
+                        verification.textContent = "verified";
+                        verification.style.color = "green";
+                    } else {
+                        verification.textContent = "not verified";
+                        verification.style.color = "red";
+                    }
+                    
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+            getUser();
+
+            const edit = document.getElementById("edit");
+            edit.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".infoBox li").forEach(li => {
+                    const value = li.innerText;
+
+                    const input = document.createElement("input");
+
+                    input.value = value;
+
+                    li.replaceWith(input);
+                });
+
+                const date = document.querySelector("#birthdate");
+                const bd = document.createElement("input");
+                bd.type = "date";
+                date.replaceWith(bd);
+
+                const labels = document.querySelectorAll(".label");
+                labels.forEach(label => {
+                    label.classList.toggle("ledit");
+                });
+                document.getElementById("lverify").classList.add("hidden");
+                verification.classList.add("hidden");
+                edit.classList.add("hidden");
+                save.classList.remove("hidden");
+                cancel.classList.remove("hidden");
+                upload.classList.remove("hidden");
+                cameradd.classList.remove("hidden");
+            });
+
+            const uploadDropdown = document.getElementById("cameradd");
+            uploadDropdown.addEventListener("click", () => {
+                const udd = document.querySelector(".udd");
+
+                udd.classList.toggle("drop");
+            })
+        }
     }
 
     const register = document.getElementById('register');

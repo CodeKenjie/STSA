@@ -2,6 +2,16 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  cover: {
+    type: String,
+    default: ""
+  },
+
+  avatar: {
+    type: String,
+    default:""
+  },
+  
   username:{
     type: String,
     required: true,
@@ -17,7 +27,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  age: Number,
   birthdate: String,
   school: String,
   year: String,

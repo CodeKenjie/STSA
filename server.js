@@ -1,8 +1,38 @@
+require("dotenv").config({ path: "./.env" });
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/Users");
+const jwt = require("jsonwebtoken");
+const auth = require("./middleware/auth");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
+
+const avatarStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "avatars",
+    allowed_formats: ["jpg", "png", "jpeg", "webp"]
+  }
+});
+
+const coverStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "covers",
+    allowed_formats: ["jpg", "png", "jpeg", "web"]
+  }
+});
+
+const uploadAvatar = multer({ storage: avatarStorage });
+const uploadCover = multer({ storage: coverStorage });
 const app = express();
 
 app.use(cors({
@@ -10,13 +40,13 @@ app.use(cors({
 }));
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
 app.use(express.static("public"));
 
 mongoose.connect("mongodb+srv://franciskenjiemaraasin_db_user:luockkxssouse@cluster0.eglmq1z.mongodb.net/regiteredUser")
   .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error(err));
+  .catch(err => console.error(err)
+);
 
 app.post("/register_account", async (req, res) => {
   console.log("REGISTER Successfully");
@@ -73,11 +103,35 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
 
-    res.json({ message: "Login successful" });
+    const token = jwt.sign(
+      { userId: userExist._id },
+      process.env.JWT_PASS,
+      { expiresIn: "1d" }
+    );
 
+    res.json({ token, message: "Login successful" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server Error" });
+  }
+});
+
+app.get("/index", auth, async (req, res) => {
+  const user = await User.findById(req.userId).select("-password");
+  res.json(user);
+});
+
+app.put("/profile", auth, async (req, res) => {
+  const { username, birthdate, email, year, course } = req.body;
+  const userId = req.user._id;
+
+  try {
+    await User.update(
+      { username, birthdate, email, year, course },
+      { where: {id: userId }}
+    );
+  } catch (err) {
+    res.status(500).json({ error: "Update Failed" })
   }
 });
 
