@@ -15,23 +15,24 @@
             </button>
         </div>
         <div id="frame">
-            <img class="picture" src="/public/css/imgs/profile.png" alt="" role="button">
+            <img class="picture" id="profilePic" src="" alt="a" role="button">
         </div>
         <div class="profile">
             <ul class="infoBox">
                 <p id="lname" class="label">username</p>
-                <li id="name" class="info"></li>
+                <li id="username" class="info"></li>
                 <p id="lemail" class="label">email</p>
                 <li id="email" class="info"></li>
                 <p id="lcourse" class="label">course</p>
                 <li id="course" class="info"></li>
-                <p class="label">verified: </p><p id="verification" class="label"></p>
+                <p class="label">verified:</p><p id="verification" class="label"></p>
             </ul>
         </div>
         <div class="settings">
             <a class="contact" href="">Settings</a>
             <a  class="contact" href="mainpage.html">About us</a>
             <a  class="contact" href="">Support us</a>
+            <a  class="contact" onclick="logout(event)">Log out</a>
         </div>
     </aside>
     <div class="supermain">

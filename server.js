@@ -19,7 +19,13 @@ const avatarStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "avatars",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"]
+    allowed_formats: ["jpg", "png", "jpeg", "webp"],
+    transformation: [{
+      width: 300,
+      height: 300,
+      crop: "fill",
+      gravity: "face"
+    }]
   }
 });
 
@@ -27,7 +33,11 @@ const coverStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "covers",
-    allowed_formats: ["jpg", "png", "jpeg", "web"]
+    allowed_formats: ["jpg", "png", "jpeg", "webp"],
+    transformation: [{
+      crop:"fill",
+      gravity: "auto"
+    }]
   }
 });
 
@@ -121,18 +131,55 @@ app.get("/index", auth, async (req, res) => {
   res.json(user);
 });
 
-app.put("/profile", auth, async (req, res) => {
-  const { username, birthdate, email, year, course } = req.body;
-  const userId = req.user._id;
+app.put("/update", auth, async (req, res) => {
+  const { username, birthdate, email, school, year, course } = req.body;
+  const userId = req.userId;
 
   try {
-    await User.update(
-      { username, birthdate, email, year, course },
-      { where: {id: userId }}
+    const update = await User.findByIdAndUpdate(userId,
+      { username, email, birthdate, school, year, course },
+      { new: true, runValidators: true }
     );
+
+    res.json({ ok: true, user: update})
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Update Failed" })
   }
+});
+
+app.post("/upload-avatar", auth, uploadAvatar.single("image"), async (req, res) => {
+  try{
+    if (!req.file){
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    await User.findByIdAndUpdate(req.userId, {
+      avatar: req.file.path
+    });
+
+    res.json({ avatar:req.file.path });
+  } catch (err){
+    console.error(err);
+    res.status(500).json({ error: "Avatar Failed" });
+  }
+});
+
+app.post("/upload-cover", auth, uploadCover.single("image"), async (req, res) => {
+  try{
+    if (!req.file){
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    await User.findByIdAndUpdate(req.userId, {
+      cover: req.file.path
+    });
+    res.json({ cover:req.file.path });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Cover Failed" });
+  }
+
 });
 
 app.listen(3000, () => {

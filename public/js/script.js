@@ -12,8 +12,22 @@ function showHide(id, type){
     }
 }
 
-document.addEventListener("DOMContentLoaded", function(){
+function logout(event){
+    event.preventDefault();
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+document.addEventListener("DOMContentLoaded", function(e){
+    e.preventDefault();
     const login = document.getElementById("login");
+    const token = localStorage.getItem("token");
+    const pages = ["/index.html", "/profile.html", "/verify.html"];
+    const currentpage = window.location.pathname;
+    if (pages.includes(currentpage) && !token){
+        window.location.href = "mainpage.html";
+    }
+
     if (login){
         document.getElementById("userNotRegistered").classList.add("hidden");
         document.getElementById("incorrectPassword").classList.add("hidden");
@@ -56,7 +70,8 @@ document.addEventListener("DOMContentLoaded", function(){
     if (index) {
         const profile = document.getElementById("sidebar");
         if (profile) {
-            const name = document.getElementById("name");
+            const profilePic = document.getElementById("profilePic");
+            const name = document.getElementById("username");
             const email = document.getElementById("email");
             const school = document.getElementById("school");
             const year = document.getElementById("year");
@@ -84,10 +99,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     const user = await res.json();
 
+                    profilePic.src = user.avatar;
                     name.textContent = user.username;
                     email.textContent = user.email;
-                    school.textContent = user.school;
-                    year.textContent = user.year;
                     course.textContent = user.course;
                     if(user.verified){
                         verification.textContent = "verified";
@@ -106,12 +120,13 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     const profile = document.getElementById("profile");
-
     if (profile) {
+        const coverPhoto = document.getElementById("coverPhoto");
         const save = document.getElementById("save");
         const cancel = document.getElementById("cancel");
         const upload = document.getElementById("uploads");
         const cameradd = document.getElementById("cameradd");
+        const profilePic = document.getElementById("profilePic");
         save.classList.add("hidden");
         cancel.classList.add("hidden");
         upload.classList.add("hidden");
@@ -119,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function(){
         const info = document.getElementById("info");
 
         if (info) {
-            const name = document.getElementById("name");
+            const name = document.getElementById("username");
             const birthdate = document.getElementById("birthdate");
             const email = document.getElementById("email");
             const school = document.getElementById("school");
@@ -147,7 +162,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
 
                     const user = await res.json();
-
+                    coverPhoto.src = user.cover;
+                    profilePic.src = user.avatar;
                     name.textContent = user.username;
                     email.textContent = user.email;
                     birthdate.textContent = user.birthdate;
@@ -178,19 +194,28 @@ document.addEventListener("DOMContentLoaded", function(){
                     const input = document.createElement("input");
 
                     input.value = value;
+                    input.classList.add("editInput");
+
+                    if (li.id) input.id = li.id;
 
                     li.replaceWith(input);
                 });
 
                 const date = document.querySelector("#birthdate");
                 const bd = document.createElement("input");
+                const value = birthdate.innerText;
                 bd.type = "date";
+                bd.value = value;
+                bd.classList.add("editInput");
+                bd.id = "birthdate";
                 date.replaceWith(bd);
 
                 const labels = document.querySelectorAll(".label");
                 labels.forEach(label => {
                     label.classList.toggle("ledit");
                 });
+
+
                 document.getElementById("lverify").classList.add("hidden");
                 verification.classList.add("hidden");
                 edit.classList.add("hidden");
@@ -200,12 +225,99 @@ document.addEventListener("DOMContentLoaded", function(){
                 cameradd.classList.remove("hidden");
             });
 
+            const save = document.getElementById("save");
+            save.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const updateName = document.querySelector("#username").value;
+                const updateEmail = document.querySelector("#email").value;
+                const updateBirthDate = document.querySelector("#birthdate").value;
+                const updateSchool = document.querySelector("#school").value;
+                const updateYear = document.querySelector("#year").value;
+                const updateCourse = document.querySelector("#course").value;
+                
+                try{
+                    const token = localStorage.getItem("token");
+                    const res = await fetch("http://localhost:3000/update", {
+                        method: "PUT",
+                        headers: {
+                            "Content-type": "application/json",
+                            Authorization: "Bearer " + token
+                        },
+                        body: JSON.stringify({
+                            username: updateName,
+                            email: updateEmail,
+                            birthdate: updateBirthDate,
+                            school: updateSchool,
+                            year: updateYear,
+                            course: updateCourse
+                        })
+                    });
+
+                    if (!res.ok) return;
+
+                    location.reload();
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+
             const uploadDropdown = document.getElementById("cameradd");
             uploadDropdown.addEventListener("click", () => {
                 const udd = document.querySelector(".udd");
-
                 udd.classList.toggle("drop");
             })
+
+            const avatar = document.getElementById("avatar");
+            avatar.addEventListener("change", async () => {
+                if (!avatar.files.length) return;
+
+                const formData = new FormData();
+                formData.append("image", avatar.files[0]);
+                
+                try{
+                    const token = localStorage.getItem("token");
+                    const res = await fetch("http://localhost:3000/upload-avatar", {
+                        method: "POST",
+                        headers: {
+                            Authorization: "Bearer " + token
+                        },
+                        body: formData
+                    });
+
+                    const data = await res.json();
+                    if (data.avatar){
+                        profilePic.src = data.avatar;
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+
+            const cover = document.getElementById("cover");
+            cover.addEventListener("change", async () => {
+                if(!cover.files.length) return;
+
+                const formData = new FormData;
+                formData.append("image", cover.files[0]);
+
+                try {
+                    const token = localStorage.getItem("token");
+                    const res = await fetch("http://localhost:3000/upload-cover", {
+                        method: "POST",
+                        headers: {
+                            Authorization: "Bearer " + token
+                        },
+                        body: formData
+                    });
+
+                    const data = await res.json();
+                    if (data.cover) {
+                        coverPhoto.src = data.cover;
+                    }
+                } catch (err){
+                    console.error(err);
+                }
+            });
         }
     }
 

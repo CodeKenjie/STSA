@@ -14,19 +14,21 @@
     <form id="info" class="profileForm">
         <div class="box">
             <div class="background">
-                <img src="/public/css/imgs/coverphoto.jfif" alt="background">
+                <img id="coverPhoto" src="" alt="">
             </div>
-            <div class="uploadDropDown">
+            <div id="uploadDropDown">
                 <button id="cameradd" class="camera" type="button">
                     <img class="cameraIcon" src="/public/css/imgs/camera.png" alt="imgs">
                 </button>
                 <div id="uploads" class="udd">
-                    <input type="file">
-                    <input type="file">
+                    <input id="avatar" accept="image/*" type="file" hidden>
+                    <label for="avatar" class="upload"><img src="/public/css/imgs/profile.png" alt="avatar">Upload avatar</label>
+                    <input id="cover" accept="image/*" type="file" hidden>
+                    <label for="cover" class="upload"><img src="/public/css/imgs/cover.png" alt="cover">Upload cover photo</label>
                 </div>
             </div>
             <div class="dp">
-                <img class="picture" src="/public/css/imgs/profile.png" alt="picture">
+                <img class="picture" id="profilePic" src="" alt="a">
             </div>
             <div class="userInfo">
                 <ul class="infoBox">
@@ -34,7 +36,7 @@
                         <button id="edit" class="edit" type="button"><img id="editIcon" src="/public/css/imgs/edit.png" alt="profile"></button>
                     </div>
                     <p id="lname" class="label">Username</p>
-                    <li id="name" class="info"></li>
+                    <li id="username" class="info"></li>
                     <p id="lemail" class="label">Email</p>
                     <li id="email" class="info"></li>
                     <p id="lbd" class="label">Birth date</p>
@@ -47,8 +49,8 @@
                     <li id="course" class="info"></li>
                     <p id="lverify" class="label">Verified: </p><p id="verification" class="label"></p>
                     <div id="scBtn">
-                        <button id="save" class="saveBtn" type="submit">save</button>
-                        <button id="cancel" class="saveBtn" type="button">cancel</button>
+                        <button id="save" class="saveBtn">save</button>
+                        <button id="cancel" class="saveBtn" type="submit">cancel</button>
                     </div>
                 </ul>
             </div>
