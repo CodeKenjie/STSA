@@ -44,11 +44,11 @@
                         <img id="todoMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
-                        <button class="add">+<input class="input" type="text" placeholder="Add"></button>
-                        <input id="todoDate"type="datetime-local" class="date">
-                        <div class="sub">
-                            <ul class="task"></ul>
-                        </div>
+                        <form id="addTodo">
+                            <input id="todo_title" class="input" type="text" placeholder="Add">
+                            <input id="todoDate"type="datetime-local" class="date"><button type="submit" class="upload"><img class="uploadIcon" src="/public/css/imgs/todo.png">Upload</button>
+                            <ul id="todoList" class="task"></ul>
+                        </form>
                     </div>
                 </div>
                 <div id="sched" class="sections">
@@ -57,11 +57,11 @@
                         <img id="schedMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
-                        <button class="add">+<input class="input" type="text" placeholder="Add"></button>
-                        <input id="schedDate" type="datetime-local" class="date">
-                        <div class="sub">
-                            <ul class="task"></ul>
-                        </div>
+                        <form  id="addSched">
+                            <input id="subject" class="input" type="text" placeholder="Add">
+                            <input id="schedDate" type="datetime-local" class="date"><button  class="upload" type="submit"><img class="uploadIcon" src="/public/css/imgs/schedule.png">Upload</button>
+                            <ul id="schedList" class="task"></ul>
+                        </form>
                     </div>
                 </div>
                 <div id="module" class="sections">
@@ -70,10 +70,11 @@
                         <img id="moduleMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
-                        <button class="add">+<input class="input"  type="text" placeholder="Add"></button>
-                        <div class="sub">
-                            <ul class="task"></ul>
-                        </div>
+                        <form id="addModule">
+                            <input id="moduleTitle" class="input"  type="text" placeholder="Add">
+                            <input id="link" class="link" type="text" placeholder="Enter link" ><button id="upload" class="upload" type="submit"><img class="uploadIcon" src="/public/css/imgs/link.png">Upload</button>
+                            <ul id="moduleList"class="task"></ul>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -94,10 +95,13 @@
                     </div>
                 </div>
             </div>
+            <div class="subsect3">
+                <div id="Container"></div>
+            </div>
         </main>
     </div>
     <div class="chooser">
-        <button class="icon">
+        <button class="icon" type="button">
             <img class="op" src="css/imgs/notification.png" alt="notif">
             <img class="close" src="css/imgs/close.png" alt="close">
         </button>

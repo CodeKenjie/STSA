@@ -2,12 +2,13 @@ require("dotenv").config({ path: "./.env" });
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const User = require("./models/Users");
+const { User, Todo, Schedule, Module } = require("./models");
 const jwt = require("jsonwebtoken");
 const auth = require("./middleware/auth");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
+const path = require("path");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -43,6 +44,7 @@ const coverStorage = new CloudinaryStorage({
 
 const uploadAvatar = multer({ storage: avatarStorage });
 const uploadCover = multer({ storage: coverStorage });
+
 const app = express();
 
 app.use(cors({
@@ -59,11 +61,8 @@ mongoose.connect("mongodb+srv://franciskenjiemaraasin_db_user:luockkxssouse@clus
 );
 
 app.post("/register_account", async (req, res) => {
-  console.log("REGISTER Successfully");
-  console.log("BODY:", req.body);
-
   try {
-    const { username, email, password } = req.body;
+    const { username, email } = req.body;
 
     const existingUser = await User.findOne({ username, email });
 
@@ -80,9 +79,7 @@ app.post("/register_account", async (req, res) => {
       password: req.body.password
     });
 
-    const saved = await user.save();
-    console.log("SAVED:", saved);
-
+    await user.save();
     res.json({ ok: true });
   } catch (err) {
     console.error("SAVE ERROR:", err);
@@ -126,9 +123,12 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/index", auth, async (req, res) => {
+app.get("/loadUser", auth, async (req, res) => {
   const user = await User.findById(req.userId).select("-password");
-  res.json(user);
+  const userTodo = await Todo.find({ user: req.userId });
+  const userSched = await Schedule.find({ user: req.userId });
+  const userModule = await Module.find({ user: req.userId });
+  res.json({ user, userTodo, userSched, userModule });
 });
 
 app.put("/update", auth, async (req, res) => {
@@ -181,6 +181,126 @@ app.post("/upload-cover", auth, uploadCover.single("image"), async (req, res) =>
   }
 
 });
+
+app.post("/addTask", auth, async (req, res) => {
+  try {
+    if (!req.body.title) {
+      return res.status(400).json({ error: "Title is required" });
+    }
+
+    if (!req.body.due){
+      return res.status(400).json({ error: "Due date is required" })
+    }
+
+    const todo = new Todo({
+      user: req.userId,
+      title: req.body.title,
+      completed: req.body.completed ?? false
+    });
+
+    await todo.save();
+    res.status(201).json({ ok: true, todo });
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "theires a Bug!!!!"});
+  }
+});
+
+app.patch("/completed/:id", auth, async (req, res) => {
+  try{
+    const todo = await Todo.findOneAndUpdate(
+      { _id: req.params.id , user: req.userId }, { completed: req.body.completed }, { new: true }
+    );
+
+    if (!todo){
+      return res.status(404).json({ error: "todo not found" });
+    }
+    res.json({ ok: true, todo });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "server error"});
+  }
+});
+
+app.post("/addSched", auth, async (req, res) => {
+  try{
+    if(!req.body.title){
+      return res.status(400).json({ error: "no title" });
+    }
+
+    if(!req.body.date){
+      return res.status(400).json({ error: "no date" });
+    }
+
+    const sched = new Schedule({
+      user: req.userId,
+      title: req.body.title,
+      date: req.body.date
+    }); 
+
+    await sched.save();
+    res.status(201).json({ ok: true, sched });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" })
+  }
+});
+
+app.post("/addModule", auth, async (req, res) => {
+  try{
+    if (!req.body.link){
+      return res.status(400).json({ error: "no file attached" });
+    }
+
+    if (!req.body.title){
+      return res.status(400).json({ error: "title required" })
+    }
+
+    const module = new Module({
+      user: req.userId,
+      title: req.body.title,
+      link: req.body.link,
+    });
+
+    await module.save();
+    res.status(201).json({ ok: true, module });
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({ error: err.message, stack: err.stack });
+  }
+});
+
+app.delete("/delete/:id", auth, async (req, res) => {
+  try{
+    const query = { _id: req.params.id, user: req.userId };
+    const moduleDoc = await Module.findOne(query);
+    const todoDoc = await Todo.findOne(query);
+    const schedDoc = await Schedule.findOne(query);
+
+    if (!moduleDoc && !todoDoc && !schedDoc){
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    if (todoDoc) {
+      await todoDoc.deleteOne();
+    }
+
+    if (schedDoc) {
+      await schedDoc.deleteOne();
+    }
+
+    if (moduleDoc){
+      await moduleDoc.deleteOne();
+    }
+
+    res.json({ message: "todo delete successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server Error" })
+  }
+});
+
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");

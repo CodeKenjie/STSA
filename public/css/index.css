@@ -115,6 +115,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    columns: 3 500px;
 }
 
 .main{
@@ -166,14 +167,6 @@
     padding: 5px;
 }
 
-.add{
-    font-size: var(--bfs);
-    color: var(--solidbg);
-    background-color: var(--bc);
-    border-radius: 20em;
-    border-width: 0;
-}
-
 .add:hover{
     background-color: var(--hc);
 }
@@ -200,14 +193,51 @@
     background-color: var(--ab);
 }
 
-.date{
-    font-size: var(--fs);
-    margin-left: 0.5em;
+.date {
+    font-size: 14px;
+    margin: 0 1em 0 2em;
     border-style: none;
+    width: 12em;
 }
 
 .date:focus{
     outline: none;
+}
+
+.link{
+    font-size: 14px;
+    margin: 0 1em 0 1em;
+    vertical-align: middle;
+    width: 12em;
+    padding: 10px;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: gray;
+    opacity: 75%;
+}
+
+.link:focus{
+    outline: none;
+}
+
+.upload{
+    background-color: var(--solidbg);
+    border-style: none;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 10%;
+    box-shadow: var(--shadow);
+    background-color: var(--bc);
+    color: var(--solidbg);
+    font-size: 14px;
+    font-weight: var(--bold);
+    padding: 10px;
+}
+
+.upload:hover {
+    transform: scale(1.1);
+    transition: transform 0.03s ease;
 }
 
 .input{
@@ -215,9 +245,9 @@
     font-size: var(--bfs);
     background-color: var(--bc);
     border-style: none;
-    width: 15em;
-    padding: 0.5em;
-    border-radius: 0 20em 20em 0;
+    width: 16em;
+    padding: 0.5em 1em;
+    border-radius: 20em;
 }
 
 .input:hover{
@@ -281,6 +311,7 @@
     overflow-wrap: break-word;
     white-space: pre-wrap;
 }
+
 #message:focus{
     outline: none;
 }
@@ -308,15 +339,76 @@
 }
 
 .task {
+    max-height: 8.7vw;
+    padding: 3px;
+    margin: 0;
     overflow: auto;
 }
 
-.sub{
-    background-color: var(--subcolor);
-    border-radius: 3px;
-    margin-top: 10px;
+.task li {
+    display: flex;
+    align-items: center;
+    font-size: var(--fs);
+    list-style: none;
+    padding: 0.3em;
+    background-color: var(--solidbg);
+    width: auto;
     overflow: auto;
-    height: 8.7vw;
+    scrollbar-width: none;
+    border-radius: 3px;
+    vertical-align: middle;
+    height: fit-content;
+}
+.task label {
+    display: flex;
+    align-items: center;
+    font-size: var(--bfs);
+    width: 350px;
+    height:fit-content;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.task input[type="checkbox"] {
+    appearance: none;
+    background-color: var(--subfc);
+    border-style: solid;
+    border-color: var(--subfc);
+    border-radius: 50%;
+    border-width: 1px;
+    opacity: 50%;
+    width: var(--fs);
+    height: var(--fs);
+    vertical-align: middle;
+    margin: 5px;
+}
+
+.task input[type="checkbox"]:checked {
+    background: var(--solidbg);
+    border-width: 3px;
+    opacity: 100%;
+}
+
+.task li p{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    justify-self: end;
+    opacity: 50%;
+    padding: 0;
+    margin: 0;
+    width: auto;
+}
+
+.task a {
+    width: auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+    display: flex;
+    font-size: var(--fs);
+    padding: 0;
+    margin: 0;
+    color: black;
 }
 
 .class{
@@ -425,7 +517,7 @@
     padding: 2px;
     width: var(--is);
     height: var(--is);
-    animation: spin 1s ease;
+    animation: spin 0.03s ease;
 }
 
 #profileIcon{
@@ -440,6 +532,14 @@
     position: relative;
     animation: spin-left-appear 1s ease;
 }
+
+.uploadIcon {
+    margin: 0 5px 0 0;
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
 #notifTitle{
     font-size: 2em;
     margin: 5px;
@@ -450,4 +550,40 @@
     width: auto;
     border-radius: 3px;
     overflow: auto;
+}
+
+.subsect3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#Container {
+    background-color: var(--solidbg);
+    display: none;
+    flex-direction: column;
+    align-items: end;
+    padding: 5px;
+    border-radius: 2px;
+    width: auto;
+    height: 880px;
+    box-shadow: var(--shadow);
+}
+
+iframe {
+    border-style: solid;
+    border-color: var(--solidbg);
+    resize: both;
+    width: 600px;
+    height: 880px;
+}
+
+#Container button {
+    background-color: transparent;
+    border-radius: 50%;
+    border-style: none;
+    font-size: 14px;
+    margin: 3px;
+    vertical-align: middle;
 }

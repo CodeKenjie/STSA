@@ -181,9 +181,8 @@
     padding: 1em;
     animation: right-slide 1s ease-in;
     overflow: auto;
-    overflow-wrap: anywhere;
-    word-break: break-word;
     scrollbar-width: none;
+    overflow-wrap: anywhere;
 }
 
 .infoBox input{

@@ -12,10 +12,67 @@ function showHide(id, type){
     }
 }
 
+
 function logout(event){
     event.preventDefault();
     localStorage.removeItem("token");
     window.location.href = "login.html";
+}
+
+async function renderList({ data, containerId, renderItem }){
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    data.forEach(item => {
+        const list = document.createElement("li");
+        list.draggable = true;
+
+        renderItem(list, item);
+        container.appendChild(list);
+    });
+}
+
+async function dragDelete(which, list, id){
+    const container = document.getElementById(list);
+    let isOutside = false;
+
+    which.draggable = true; 
+
+    which.addEventListener("dragstart", () =>{
+        isOutside = false;
+    });
+
+    if (!container.dataset.dragBound){
+        container.dataset.dragBound = true;
+
+        container.addEventListener("dragenter", () => {
+            isOutside = false;
+        });
+
+        container.addEventListener("dragleave", (e) => {
+            if (!container.contains(e.relatedTarget)){
+                isOutside = true;
+            }
+        });
+    }
+    
+
+    which.addEventListener("dragend", async () => {
+        if (!isOutside) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            await fetch(`http://localhost:3000/delete/${id._id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            });
+            which.remove();
+        } catch (err) {
+            console.error(err);
+        }
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function(e){
@@ -68,13 +125,29 @@ document.addEventListener("DOMContentLoaded", function(e){
 
     const index = document.getElementById("stsa");
     if (index) {
+        const menu = document.querySelector(".menubar");
+        const sidebar = document.querySelector(".sidebar");
+        menu.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+            menu.classList.toggle("open");
+        });
+
+        const bell = document.querySelector(".icon");
+        const ibell = document.querySelector(".icon img");
+        const notif = document.querySelector(".notif");
+        const close = document.querySelector(".close");
+
+        bell.addEventListener("click", () => {
+            notif.classList.toggle("open");
+            ibell.classList.toggle("close");
+            close.classList.toggle("open");
+        });
+
         const profile = document.getElementById("sidebar");
         if (profile) {
             const profilePic = document.getElementById("profilePic");
             const name = document.getElementById("username");
             const email = document.getElementById("email");
-            const school = document.getElementById("school");
-            const year = document.getElementById("year");
             const course = document.getElementById("course");
             const verification = document.getElementById("verification");
 
@@ -87,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 }
 
                 try{
-                    const res = await fetch("http://localhost:3000/index", {
+                    const res = await fetch("http://localhost:3000/loadUser", {
                         headers: {
                             Authorization: "Bearer " + token
                         }
@@ -97,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                         name.textContent = "Please log in";
                     }
 
-                    const user = await res.json();
+                    const { user, userTodo, userSched, userModule } = await res.json();
 
                     profilePic.src = user.avatar;
                     name.textContent = user.username;
@@ -110,13 +183,164 @@ document.addEventListener("DOMContentLoaded", function(e){
                         verification.textContent = "not verified";
                         verification.style.color = "red";
                     }
-                    
+
+                    renderList({
+                        data: userTodo,
+                        containerId: "todoList",
+                        renderItem: (list, todo) => {
+                            const input = document.createElement("input");
+                            input.type = "checkbox";
+                            input.checked = todo.completed;
+
+                            const label = document.createElement("label");
+                            label.textContent = todo.title;
+                            label.style.opacity = input.checked ? "50%" : "100%";
+
+                            const p = document.createElement("p");
+                            p.textContent = new Date(todo.due).toLocaleString();
+
+                            input.addEventListener("change", async () => {
+                                label.style.opacity = input.checked ? "50%" : "100%";
+                                try {
+                                    const token = localStorage.getItem("token");
+                                    await fetch(`http://localhost:3000/completed/${todo._id}`, {
+                                        method: "PATCH",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            Authorization: "Bearer " + token
+                                        },
+                                        body: JSON.stringify({ completed: input.checked })
+                                    });
+                                } catch (err) {
+                                    console.error(err);
+                                }
+                            });
+                            list.append(input, label, p);
+                            dragDelete(list, "todoList", todo);
+                        }
+                    });
+
+                    renderList({
+                        data: userSched,
+                        containerId: "schedList",
+                        renderItem: (list, subject) => {
+                            const label = document.createElement("label");
+                            label.textContent = subject.title;
+                            const p = document.createElement("p");
+                            p.textContent = new Date(subject.date).toLocaleString();
+
+                            list.append(label, p);
+                            dragDelete(list, "schedList", subject);
+                        }
+                    });
+
+                    renderList({
+                        data: userModule,
+                        containerId: "moduleList",
+                        renderItem: (list, link) => {
+                            const a = document.createElement("a");
+                            a.textContent = link.title;
+                            a.href = "#";
+                            a.addEventListener("click", () => {
+                                const iframeContainer = document.getElementById("Container");
+                                iframeContainer.innerHTML = '';
+                                iframeContainer.style.display = "flex";
+
+                                const iframe = document.createElement("iframe");
+                                const close = document.createElement("button");
+                                close.textContent = "x";
+                                iframe.src = link.link;
+                                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                                iframe.allowFullscreen = true;
+
+                                iframeContainer.append(close, iframe);
+                                close.addEventListener("click", (e) => {
+                                    e.preventDefault();
+                                    iframeContainer.style.display = "none";
+                                });
+                            });
+
+                            list.appendChild(a);
+                            dragDelete(list, "moduleList", link);
+                        }
+                    });
                 } catch (err) {
                     console.error(err);
                 }  
             }
             getUser();
         }
+
+        const inputTodo = document.getElementById("addTodo");
+        inputTodo.addEventListener("submit", async () => {
+            const inputLabel = document.getElementById("todo_title").value;
+            const inputDate = document.getElementById("todoDate").value;
+
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch("http://localhost:3000/addTask", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: "Bearer " + token,
+                    },
+                    body: JSON.stringify({ title: inputLabel, due: inputDate })
+                });
+
+                const data = await res.json();
+                console.log(data);
+                this.location.reload();
+            } catch (err) {
+                console.log(err);
+            }
+        });
+
+        const inputSched = document.getElementById("addSched");
+        inputSched.addEventListener("submit", async () => {
+            const subject = document.getElementById("subject").value;
+            const date = document.getElementById("schedDate").value;
+            try{
+                const token = localStorage.getItem("token");
+
+                const res = await fetch("http://localhost:3000/addSched", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + token
+                    },
+                    body: JSON.stringify({ title: subject, date: date })
+                });
+
+                const data = await res.json();
+                console.log(data);
+                this.location.reload();
+            } catch(err) {
+                console.error(err);
+            }
+        });
+
+        const inputModule = document.getElementById("addModule");
+        inputModule.addEventListener("submit", async () => {
+            const title = document.getElementById("moduleTitle").value;
+            const link = document.getElementById("link").value;
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch ("http://localhost:3000/addModule", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + token
+                    },
+                    body: JSON.stringify({ title: title, link: link })
+                });
+
+                const data = await res.json();
+                console.log(data);
+                this.location.reload();
+            } catch (err) {
+                console.error(err);
+            }
+        });
     }
 
     const profile = document.getElementById("profile");
@@ -151,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 }
 
                 try {
-                    const res = await fetch("http://localhost:3000/index", {
+                    const res = await fetch("http://localhost:3000/loadUser", {
                         headers: {
                             Authorization: "Bearer " + token
                         }
@@ -161,7 +385,9 @@ document.addEventListener("DOMContentLoaded", function(e){
                         name.textContent = "Please log in";
                     }
 
-                    const user = await res.json();
+                    const data = await res.json();
+                    const user = data.user;
+
                     coverPhoto.src = user.cover;
                     profilePic.src = user.avatar;
                     name.textContent = user.username;
@@ -171,6 +397,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                     school.textContent = user.school;
                     year.textContent = user.year;
                     course.textContent = user.course;
+
                     if(user.verified){
                         verification.textContent = "verified";
                         verification.style.color = "green";
@@ -403,27 +630,6 @@ document.addEventListener("DOMContentLoaded", function(e){
                 alert("Registration successful!");
             })
             .catch(err => console.error("Fetch error:", err));
-        });
-    }
-
-    const stsa = document.getElementById("stsa");
-    if(stsa) {
-        const menu = document.querySelector(".menubar");
-        const sidebar = document.querySelector(".sidebar");
-        menu.addEventListener("click", () => {
-            sidebar.classList.toggle("open");
-            menu.classList.toggle("open");
-        });
-
-        const bell = document.querySelector(".icon");
-        const ibell = document.querySelector(".icon img");
-        const notif = document.querySelector(".notif");
-        const close = document.querySelector(".close");
-
-        bell.addEventListener("click", () => {
-            notif.classList.toggle("open");
-            ibell.classList.toggle("close");
-            close.classList.toggle("open");
         });
     }
 });
