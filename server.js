@@ -195,6 +195,7 @@ app.post("/addTask", auth, async (req, res) => {
     const todo = new Todo({
       user: req.userId,
       title: req.body.title,
+      due: new Date(req.body.due),
       completed: req.body.completed ?? false
     });
 
@@ -229,14 +230,24 @@ app.post("/addSched", auth, async (req, res) => {
       return res.status(400).json({ error: "no title" });
     }
 
-    if(!req.body.date){
-      return res.status(400).json({ error: "no date" });
+    if(!req.body.day){
+      return res.status(400).json({ error: "no day" });
+    }
+
+    if(!req.body.from){
+      return res.status(400).json({ error: "no from" });
+    }
+
+    if(!req.body.to){
+      return res.status(400).json({ error: "no to" });
     }
 
     const sched = new Schedule({
       user: req.userId,
       title: req.body.title,
-      date: req.body.date
+      day: req.body.day,
+      from: req.body.from,
+      to: req.body.to
     }); 
 
     await sched.save();

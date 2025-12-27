@@ -13,8 +13,18 @@ const schedSchema = new Schema({
         required: true
     },
 
-    date: {
-        type: Date,
+    day: {
+        type: String,
+        required: true
+    },
+
+    from: {
+        type: String,
+        required: true
+    },
+    
+    to: {
+        type: String,
         required: true
     }
 }, { timestamps: true });

@@ -4,12 +4,14 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   cover: {
     type: String,
-    default: ""
+    default: "https://res.cloudinary.com/dlisxjo4c/image/upload/v1766812631/covers/wbqorjahphl9r4eoocq2.png",
+    required: true
   },
 
   avatar: {
     type: String,
-    default:""
+    default:"https://res.cloudinary.com/dlisxjo4c/image/upload/v1766806280/avatars/jt8o0k5nhkzhf7actu1e.png",
+    required: true
   },
   
   username:{

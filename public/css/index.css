@@ -196,19 +196,42 @@
 .date {
     font-size: 14px;
     margin: 0 1em 0 2em;
-    border-style: none;
-    width: 12em;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .date:focus{
     outline: none;
 }
 
+#days {
+    margin-left: 3px;
+    font-size: 14px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.time {
+    font-size: 14px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 5em;
+}
+
+.time:focus{
+    outline: none;
+}
 .link{
     font-size: 14px;
     margin: 0 1em 0 1em;
     vertical-align: middle;
-    width: 12em;
+    width: 15.3em;
     padding: 10px;
     border-style: solid;
     border-radius: 10px;
@@ -348,6 +371,7 @@
 .task li {
     display: flex;
     align-items: center;
+    justify-content: center;
     font-size: var(--fs);
     list-style: none;
     padding: 0.3em;
@@ -363,7 +387,7 @@
     display: flex;
     align-items: center;
     font-size: var(--bfs);
-    width: 350px;
+    width: 20.1em;
     height:fit-content;
     overflow-y: auto;
     scrollbar-width: none;
@@ -389,15 +413,14 @@
     opacity: 100%;
 }
 
-.task li p{
-    display: flex;
-    align-items: center;
-    font-size: 14px;
+.task p{
     justify-self: end;
+    text-align: end;
+    font-size: 14px;
     opacity: 50%;
     padding: 0;
     margin: 0;
-    width: auto;
+    width: 13em;
 }
 
 .task a {
@@ -411,6 +434,22 @@
     color: black;
 }
 
+.task button {
+    justify-self: end;
+    padding: 0 10px;
+    margin: 0 5px;
+    height: fit-content;
+    font-size: var(--fs);
+    background-color: transparent;
+    border-style: none;
+    border-radius: 5px;
+}
+
+.task button:hover {
+    background-color: var(--subcolor);
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
 .class{
     color: var(--fc);
     background-color: var(--subfc);
@@ -544,8 +583,8 @@
     font-size: 2em;
     margin: 5px;
 }
+
 #notification{
-    background-color: var(--subcolor);
     height: 100vh;
     width: auto;
     border-radius: 3px;
@@ -563,7 +602,7 @@
     background-color: var(--solidbg);
     display: none;
     flex-direction: column;
-    align-items: end;
+    align-items: start;
     padding: 5px;
     border-radius: 2px;
     width: auto;
@@ -586,4 +625,29 @@ iframe {
     font-size: 14px;
     margin: 3px;
     vertical-align: middle;
+}
+
+.trash{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    background: linear-gradient(to top, rgba(255, 0, 0, 0.39), transparent);
+    z-index: 0;
+    overflow: hidden;
+}
+
+.trash.open {
+    height: 10em;
+}
+
+.trashIcon {
+    background-color: white;
+    width: 5em;
+    height: 5em;
+    padding: 1em;
+    clip-path: circle();
 }

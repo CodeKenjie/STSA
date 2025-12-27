@@ -32,48 +32,138 @@ async function renderList({ data, containerId, renderItem }){
     });
 }
 
-async function dragDelete(which, list, id){
-    const container = document.getElementById(list);
-    let isOutside = false;
-
-    which.draggable = true; 
-
-    which.addEventListener("dragstart", () =>{
-        isOutside = false;
-    });
-
-    if (!container.dataset.dragBound){
-        container.dataset.dragBound = true;
-
-        container.addEventListener("dragenter", () => {
-            isOutside = false;
-        });
-
-        container.addEventListener("dragleave", (e) => {
-            if (!container.contains(e.relatedTarget)){
-                isOutside = true;
+async function deleteItem(id){
+    try{
+        const token = localStorage.getItem("token");
+        await fetch(`http://localhost:3000/delete/${id._id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + token
             }
         });
+    } catch (err){
+        console.error(err);
     }
-    
-
-    which.addEventListener("dragend", async () => {
-        if (!isOutside) return;
-
-        try {
-            const token = localStorage.getItem("token");
-            await fetch(`http://localhost:3000/delete/${id._id}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: "Bearer " + token
-                }
-            });
-            which.remove();
-        } catch (err) {
-            console.error(err);
-        }
-    });
 }
+
+async function loadUserTask(){
+    try{
+        const token = localStorage.getItem("token");
+        const res = await fetch ("http://localhost:3000/loadUser", {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        });
+
+        const { userTodo, userSched, userModule } = await res.json();
+
+        renderList({
+            data: userTodo,
+            containerId: "todoList",
+            renderItem: (list, todo) => {
+                const input = document.createElement("input");
+                input.type = "checkbox";
+                input.checked = todo.completed;
+
+                const label = document.createElement("label");
+                label.textContent = todo.title;
+                label.style.opacity = input.checked ? "50%" : "100%";
+
+                const p = document.createElement("p");
+                p.textContent = new Date(todo.due).toLocaleString();
+                const button = document.createElement("button");
+                button.textContent = "-";
+
+                button.addEventListener("click", async (e)=> {
+                    e.preventDefault();
+                    deleteItem(todo);
+                    list.remove();
+                });
+
+                input.addEventListener("change", async () => {
+                    label.style.opacity = input.checked ? "50%" : "100%";
+                    try {
+                        const token = localStorage.getItem("token");
+                        await fetch(`http://localhost:3000/completed/${todo._id}`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: "Bearer " + token
+                            },
+                            body: JSON.stringify({ completed: input.checked })
+                        });
+                    } catch (err) {
+                        console.error(err);
+                    }
+                });
+                list.append(input, label, p, button);
+            }
+        });
+
+        renderList({
+            data: userSched,
+            containerId: "schedList",
+            renderItem: (list, subject) => {
+                const label = document.createElement("label");
+                label.textContent = subject.title;
+                const p = document.createElement("p");
+                p.textContent = subject.day + " " + subject.from + " - " + subject.to;
+                const button = document.createElement("button");
+                button.textContent = "-";
+
+                button.addEventListener("click", async (e)=> {
+                    e.preventDefault();
+                    deleteItem(subject);
+                    list.remove();
+                });
+
+                list.append(label, p, button);
+            }
+        });
+
+        renderList({
+            data: userModule,
+            containerId: "moduleList",
+            renderItem: (list, link) => {
+                const a = document.createElement("a");
+                a.textContent = link.title;
+                a.href = "#";
+                const button = document.createElement("button");
+                button.textContent = "-";
+
+                button.addEventListener("click", async (e)=> {
+                    e.preventDefault();
+                    deleteItem(link);
+                    list.remove();
+                });
+
+                a.addEventListener("click", () => {
+                    const iframeContainer = document.getElementById("Container");
+                    iframeContainer.innerHTML = '';
+                    iframeContainer.style.display = "flex";
+
+                    const iframe = document.createElement("iframe");
+                    const close = document.createElement("button");
+                    close.textContent = "x";
+                    iframe.src = link.link;
+                    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                    iframe.allowFullscreen = true;
+
+                    iframeContainer.append(close, iframe);
+                    close.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        iframeContainer.style.display = "none";
+                    });
+                });
+
+                list.append(a, button);
+            }
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
 
 document.addEventListener("DOMContentLoaded", function(e){
     e.preventDefault();
@@ -125,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function(e){
 
     const index = document.getElementById("stsa");
     if (index) {
+        loadUserTask();
         const menu = document.querySelector(".menubar");
         const sidebar = document.querySelector(".sidebar");
         menu.addEventListener("click", () => {
@@ -170,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                         name.textContent = "Please log in";
                     }
 
-                    const { user, userTodo, userSched, userModule } = await res.json();
+                    const { user } = await res.json();
 
                     profilePic.src = user.avatar;
                     name.textContent = user.username;
@@ -183,87 +274,6 @@ document.addEventListener("DOMContentLoaded", function(e){
                         verification.textContent = "not verified";
                         verification.style.color = "red";
                     }
-
-                    renderList({
-                        data: userTodo,
-                        containerId: "todoList",
-                        renderItem: (list, todo) => {
-                            const input = document.createElement("input");
-                            input.type = "checkbox";
-                            input.checked = todo.completed;
-
-                            const label = document.createElement("label");
-                            label.textContent = todo.title;
-                            label.style.opacity = input.checked ? "50%" : "100%";
-
-                            const p = document.createElement("p");
-                            p.textContent = new Date(todo.due).toLocaleString();
-
-                            input.addEventListener("change", async () => {
-                                label.style.opacity = input.checked ? "50%" : "100%";
-                                try {
-                                    const token = localStorage.getItem("token");
-                                    await fetch(`http://localhost:3000/completed/${todo._id}`, {
-                                        method: "PATCH",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                            Authorization: "Bearer " + token
-                                        },
-                                        body: JSON.stringify({ completed: input.checked })
-                                    });
-                                } catch (err) {
-                                    console.error(err);
-                                }
-                            });
-                            list.append(input, label, p);
-                            dragDelete(list, "todoList", todo);
-                        }
-                    });
-
-                    renderList({
-                        data: userSched,
-                        containerId: "schedList",
-                        renderItem: (list, subject) => {
-                            const label = document.createElement("label");
-                            label.textContent = subject.title;
-                            const p = document.createElement("p");
-                            p.textContent = new Date(subject.date).toLocaleString();
-
-                            list.append(label, p);
-                            dragDelete(list, "schedList", subject);
-                        }
-                    });
-
-                    renderList({
-                        data: userModule,
-                        containerId: "moduleList",
-                        renderItem: (list, link) => {
-                            const a = document.createElement("a");
-                            a.textContent = link.title;
-                            a.href = "#";
-                            a.addEventListener("click", () => {
-                                const iframeContainer = document.getElementById("Container");
-                                iframeContainer.innerHTML = '';
-                                iframeContainer.style.display = "flex";
-
-                                const iframe = document.createElement("iframe");
-                                const close = document.createElement("button");
-                                close.textContent = "x";
-                                iframe.src = link.link;
-                                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-                                iframe.allowFullscreen = true;
-
-                                iframeContainer.append(close, iframe);
-                                close.addEventListener("click", (e) => {
-                                    e.preventDefault();
-                                    iframeContainer.style.display = "none";
-                                });
-                            });
-
-                            list.appendChild(a);
-                            dragDelete(list, "moduleList", link);
-                        }
-                    });
                 } catch (err) {
                     console.error(err);
                 }  
@@ -272,7 +282,8 @@ document.addEventListener("DOMContentLoaded", function(e){
         }
 
         const inputTodo = document.getElementById("addTodo");
-        inputTodo.addEventListener("submit", async () => {
+        inputTodo.addEventListener("submit", async (e) => {
+            e.preventDefault();
             const inputLabel = document.getElementById("todo_title").value;
             const inputDate = document.getElementById("todoDate").value;
 
@@ -289,16 +300,21 @@ document.addEventListener("DOMContentLoaded", function(e){
 
                 const data = await res.json();
                 console.log(data);
-                this.location.reload();
             } catch (err) {
                 console.log(err);
             }
+            const list = document.getElementById("todoList");
+            list.innerHTML = "";
+            loadUserTask();
         });
 
         const inputSched = document.getElementById("addSched");
-        inputSched.addEventListener("submit", async () => {
+        inputSched.addEventListener("submit", async (e) => {
+            e.preventDefault();
             const subject = document.getElementById("subject").value;
-            const date = document.getElementById("schedDate").value;
+            const day = document.getElementById("days").value;
+            const from = document.getElementById("from").value;
+            const to = document.getElementById("to").value;
             try{
                 const token = localStorage.getItem("token");
 
@@ -308,19 +324,23 @@ document.addEventListener("DOMContentLoaded", function(e){
                         "Content-Type": "application/json",
                         Authorization: "Bearer " + token
                     },
-                    body: JSON.stringify({ title: subject, date: date })
+                    body: JSON.stringify({ title: subject, day: day, from: from, to: to })
                 });
 
                 const data = await res.json();
                 console.log(data);
-                this.location.reload();
             } catch(err) {
                 console.error(err);
             }
+
+            const list = document.getElementById("schedList");
+            list.innerHTML = "";
+            loadUserTask();
         });
 
         const inputModule = document.getElementById("addModule");
-        inputModule.addEventListener("submit", async () => {
+        inputModule.addEventListener("submit", async (e) => {
+            e.preventDefault();
             const title = document.getElementById("moduleTitle").value;
             const link = document.getElementById("link").value;
             try {
@@ -340,6 +360,10 @@ document.addEventListener("DOMContentLoaded", function(e){
             } catch (err) {
                 console.error(err);
             }
+            
+            const list = document.getElementById("moduleList");
+            list.innerHTML = "";
+            loadUserTask();
         });
     }
 
