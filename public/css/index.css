@@ -73,30 +73,6 @@
     height: 2em;
 }
 
-#todoMenu{
-    margin-left: 32em;
-}
-
-#schedMenu{
-    margin-left: 29.8em;
-}
-
-#moduleMenu{
-    margin-left: 30.3em;
-}
-
-#announceMenu{
-    margin-left: 25em;
-}
-
-#todoDate{
-    margin-left: 1.1em;
-}
-
-#schedDate{
-    margin-left: 1.1em;
-}
-
 .profile{
     display: flex;
     flex-direction: row;
@@ -295,32 +271,200 @@
 }
 
 .announce{
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
     background-color: var(--solidbg);
-    height: fit-content;
+    height: 95vh;
     border-radius: 3px;
     box-shadow: var(--shadow);
     padding: 0.5em;
-}
-.subtitle {
-    display: flex;
-}
-.messages{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: var(--subcolor);
-    height: 80vh;
-    width: auto;
-    overflow: auto;
-    border-radius: 3px;
-    padding: 5px;
-    gap: 20px;
+    gap: 10px;
 }
 
-.message{
+.subtitle {
+    display: grid;
+    grid-template-columns: auto 1fr 24px;
+    align-items: center;
+}
+
+#class_id {
+    opacity: 50%;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.classesContainer{
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    box-shadow: var(--shadow);
+    background-color: var(--solidbg);
+    height: fit-content;
+    width: 100%;
+    overflow: hidden;
+    scrollbar-width: none;
+    border-radius: 3px;
+}
+
+.classesContainer ul {
+    padding: 0;
+    margin: 0;
+}
+
+.classesContainer ul button {
+    font-size: var(--bfs);
+    background-color: var(--subcolor);
+    margin: .5em;
+    border-radius: 5px;
+    border-style: none;
+    padding: .5em;
+}
+
+.classesContainer ul button:hover {
+    background-color: #ebeaea;
+}
+
+.classesContainer ul button.active {
+    color: var(--fc);
+    background-color: var(--hc);
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.5s ease;
+}
+
+.joinClass{
+    background-color: var(--solidbg);
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    gap: .5em;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    transition: height 1s ease;
+}
+
+.joinClass.open{
+    height: 17em;
+    width: auto;
+    transition: height 1s ease;
+}
+
+.addClass {
+    font-size: var(--fs);
+    border-radius: 50%;
+    border-style: none;
+    box-shadow: var(--shadow);
+
+}
+
+.joinClass input {
+    font-size: var(--fs);
+    padding: .5em;
+    width: 15em;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+}
+.messages{
+    display: grid;
+    grid-template-rows: 1fr auto;
     height: auto;
+}
+
+.messages ul {
+    background-color: var(--subcolor);
+    border-radius: 2px;
+    padding: .5em;
+    margin: 0;
+    list-style: none;
+}
+
+.messages li {
+    background-color: var(--solidbg);
+    padding: 1em;
+    margin: 0 0 1em;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+}
+
+.messages span {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    font-size: var(--bfs);
+    font-weight: var(--mid);
+}
+
+.messages label p {
+    font-size: 14px;
+    opacity: 50%;
+    vertical-align: middle;
+    margin: 0;
+}
+.messages span label {
+    display: grid;
+    grid-template-rows: auto auto;
+}
+.messages span img {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px 0 0;
+    border-radius: 50%;
+    border: solid 2px;
+    border-color: var(--subcolor);
+}
+
+.messages span button{
+    font-size: 14px;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 2px;
+}
+
+.messages span button:hover{
+    background-color: var(--subcolor);
+}
+
+.messages p {
+    font-size: var(--bfs);
+    margin: 1em;
+    max-width: 32em;
+    overflow-wrap: break-word;
+}
+
+.messages li textarea{
+    background-color: var(--subcolor);
+    border: none;
+    border-radius: 5px;
+    font-size: var(--bfs);
+    width: 100%;
+    margin: 1em 0 0;
+    padding: 10px;
+}
+
+.listBtns {
+    margin: 0.5em .25em 0 0;
+    padding: .4em;
+    font-size: var(--bfs);
+    border: none;
+    border-radius: 5px;
+    color: var(--fc);
+    background-color: var(--bc);
+}
+
+.listBtns:hover {
+    background-color: var(--hc);
+}
+
+.messages form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    padding: 1em 0 0;
+    height: fit-content;
 }
 
 #message{
@@ -331,8 +475,10 @@
     padding: 0.5em;
     width: 29em;
     resize: none;
+    height: auto;
     overflow-wrap: break-word;
     white-space: pre-wrap;
+    scrollbar-width: none;
 }
 
 #message:focus{
@@ -387,7 +533,7 @@
     display: flex;
     align-items: center;
     font-size: var(--bfs);
-    width: 20.1em;
+    width: 18em;
     height:fit-content;
     overflow-y: auto;
     scrollbar-width: none;
@@ -420,7 +566,7 @@
     opacity: 50%;
     padding: 0;
     margin: 0;
-    width: 13em;
+    width: 16em;
 }
 
 .task a {
@@ -585,10 +731,27 @@
 }
 
 #notification{
+    padding: 5px;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
     height: 100vh;
     width: auto;
     border-radius: 3px;
     overflow: auto;
+}
+
+#notification li {
+    font-size: var(--fs);
+    padding: 1em;
+    border-radius: 5px;
+    list-style: none;
+    box-shadow: var(--shadow);
+    height: fit-content;
+}
+
+#notification p {
+    margin: .25em;
 }
 
 .subsect3 {

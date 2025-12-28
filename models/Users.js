@@ -36,7 +36,13 @@ const userSchema = new Schema({
   verified: {
     type: Boolean,
     default: false,
-  }
+  },
+
+  classes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Classes"
+  }]
+  
 }, { timestamps: true });
 
 const User = mongoose.model('Users', userSchema);

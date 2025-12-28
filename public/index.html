@@ -93,16 +93,28 @@
                 <div class="announce">
                     <div class="subtitle">
                         <h3 class='feature'>Announcements</h3>
+                        <input type="text" id="class_id" placeholder="Class id" readonly>
                         <img id="announceMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
-                    <div class="messages">
-                        <button class="class">Join Class</button>
-                        <button class="class">Create Class</button>
+                    <div class="classesContainer">
+                        <ul id="classList">
+                            <button id="classBtn" class="addDropDown">+</button>
+                        </ul>
+                        <div class="joinClass">
+                            <input type="text" id="classId" placeholder="Enter class id"><button id="joinClass" class="class">Join Class</button>
+                            <input type="text" id="className" placeholder="Enter class name"><button id="createClass" class="class">Create Class</button>
+                        </div>
                     </div>
-                    <br>
-                    <div class="message">
-                        <textarea id="message" rows="1" cols="30" placeholder="Announcement"></textarea>
-                        <button class="send"><img class="sendimg" src="/public/css/imgs/send.png"></button>
+                    <div class="messages">
+                        <ul id="messages">
+                            <li>
+                                <span><label>Hello Welcome to my S.T.S.A</label></span>
+                            </li>
+                        </ul>
+                        <form id="sendAnnouncement">
+                            <textarea id="message" rows="1" cols="30" placeholder="Announcement"></textarea>
+                            <button class="send" type="submit"><img class="sendimg" src="/public/css/imgs/send.png"></button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -123,7 +135,7 @@
     <aside class="notif">
         <h3 id="notifTitle" class="feature">Notifications</h4>
         <ul id="notification">
-            <li></li>
+            <li><label>Title</label><hr><p>asdasdadasdadasdasdasdasdasdas</p></li>
         </ul>
     </aside>
     <script src="/public/js/script.js" defer></script>

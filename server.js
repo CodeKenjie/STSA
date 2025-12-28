@@ -2,9 +2,10 @@ require("dotenv").config({ path: "./.env" });
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const { User, Todo, Schedule, Module } = require("./models");
+const { User, Todo, Schedule, Module, Class, Message } = require("./models");
 const jwt = require("jsonwebtoken");
 const auth = require("./middleware/auth");
+const classAccess = require("./middleware/ClassAccess");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
@@ -128,7 +129,8 @@ app.get("/loadUser", auth, async (req, res) => {
   const userTodo = await Todo.find({ user: req.userId });
   const userSched = await Schedule.find({ user: req.userId });
   const userModule = await Module.find({ user: req.userId });
-  res.json({ user, userTodo, userSched, userModule });
+  const userClasses = await Class.find({ members: req.userId });
+  res.json({ user, userTodo, userSched, userModule, userClasses });
 });
 
 app.put("/update", auth, async (req, res) => {
@@ -312,6 +314,113 @@ app.delete("/delete/:id", auth, async (req, res) => {
   }
 });
 
+app.post("/createClass", auth, async (req, res) => {
+  try{
+    if (!req.body.class_name){
+      return res.status(400).json({ error: "no class name" });
+    }
+
+    const classes = new Class({
+      class_name: req.body.class_name,
+      members: [req.userId]
+    });
+    
+    await classes.save();
+    res.status(200).json({ ok: true, classes });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+app.post("/classes/:classId/sendMessage", auth, classAccess, async (req, res) => {
+  try{
+    if(!req.body.message){
+      return res.status(400).json({ error: "No Message" });
+    }
+    const user = await User.findById(req.userId).select("avatar username email");
+
+    const message = new Message({
+      class: req.params.classId,
+      sender: req.userId,
+      avatar: user.avatar,
+      user: user.username,
+      email: user.email,
+      message: req.body.message
+    });
+
+    await message.save();
+    res.status(200).json({ ok: true, message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+app.get("/classes/:classId/loadMessages", auth, classAccess, async(req, res) => {
+  try{
+    const classAnnouncements = await Message.find({ class: req.params.classId }).sort({ createdAt: 1 });
+    await res.json({ classAnnouncements });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server failed on loading messages" });
+  }
+});
+
+app.delete("/classes/:classId/deleteMessage/:messageId", auth, classAccess, async(req, res) => {
+  try{
+    const deleteMessage = await Message.findOne({ 
+      _id: req.params.messageId, 
+      sender: req.userId, 
+      class: req.params.classId
+    });
+
+    if(!deleteMessage){
+      return res.status(404).json({ error: "permission to delete denied" });
+    }
+    await deleteMessage.deleteOne();
+    res.json({ message: "Deleted Successfully " });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.put("/classes/:classId/editMessage/:messageId", auth, classAccess, async(req, res) => {
+  try{
+    const editMessage = await Message.findByIdAndUpdate(
+      { _id: req.params.messageId, sender: req.userId, class: req.params.classId },
+      { message: req.body.message },
+    );
+
+    if (!editMessage){
+      return res.status(404).json({ error: "Message edit permission denied" });
+    }
+
+    res.json({ message: "Successfully edited" });
+  }catch(err){
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.patch("/classes/:classId/joinClass", auth, async (req, res) => {
+  try{
+    const updateClass = await Class.findByIdAndUpdate(
+      req.params.classId,
+      { $addToSet: { members: req.userId } },
+      { new: true }
+    );
+
+    if (!updateClass){
+      return res.status(404).json({ error: "Class do not Exist" });
+    }
+
+    res.json({ message: "Joined Class successfully" , class: updateClass });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
