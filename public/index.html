@@ -29,7 +29,7 @@
             </ul>
         </div>
         <div class="settings">
-            <a class="contact" href="">Settings</a>
+            <a class="contact" href="" hidden>Settings</a>
             <a  class="contact" href="mainpage.html">About us</a>
             <a  class="contact" href="">Support us</a>
             <a  class="contact" onclick="logout(event)">Log out</a>
@@ -41,7 +41,6 @@
                 <div id="todd" class="sections">
                     <div class="subtitle">
                         <h3 class='feature'>To Do</h3>
-                        <img id="todoMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
                         <form id="addTodo">
@@ -54,7 +53,6 @@
                 <div id="sched" class="sections">
                     <div class="subtitle">
                         <h3 class='feature'>Schedule</h3>
-                        <img id="schedMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
                         <form  id="addSched">
@@ -78,7 +76,6 @@
                 <div id="module" class="sections">
                     <div class="subtitle">
                         <h3 class='feature'>Modules</h3>
-                        <img id="moduleMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="minsect">
                         <form id="addModule">
@@ -94,7 +91,6 @@
                     <div class="subtitle">
                         <h3 class='feature'>Announcements</h3>
                         <input type="text" id="class_id" placeholder="Class id" readonly>
-                        <img id="announceMenu" class="menu" src="/public/css/imgs/menu.png" alt="">
                     </div>
                     <div class="classesContainer">
                         <ul id="classList">
@@ -124,7 +120,7 @@
         </main>
     </div>
     <div class="chooser">
-        <button class="icon" type="button">
+        <button class="icon" type="button" hidden>
             <img class="op" src="css/imgs/notification.png" alt="notif">
             <img class="close" src="css/imgs/close.png" alt="close">
         </button>

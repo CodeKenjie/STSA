@@ -1,4 +1,5 @@
 const currentUserId = getCurrentUser();
+const ACTIVE_LIMIT = 1 * 60 * 1000;
 
 function parseJwt(token) {
     if (!token) return null;
@@ -262,6 +263,10 @@ async function loadMessages(class_id) {
     }
 }
 
+function UserActive(user) {
+    return Date.now() - new Date(user.lastActive).getTime() < ACTIVE_LIMIT;
+}
+
 let activeClass = null;
 async function loadClasses(){
     try{
@@ -280,6 +285,18 @@ async function loadClasses(){
             const button = document.createElement("button");
             button.textContent = joined.class_name;
             button.type = "button";
+            const leave = document.createElement("button");
+            leave.textContent = "-";
+            leave.className = "leaveClass";
+            leave.type = "button";
+
+            button.append(leave);
+
+            leave.addEventListener("click", (e) => {
+                e.preventDefault();
+                leaveClass();
+                button.remove();
+            });
 
             classesList.appendChild(button);
             button.addEventListener("click", (e) => {
@@ -293,6 +310,29 @@ async function loadClasses(){
     } catch (err) {
         console.error(err);
     }
+}
+
+async function leaveClass(){
+    try{
+        const token = localStorage.getItem("token");
+        const res = await fetch (`http://localhost:3000/classes/${activeClass}/leaveClass`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            }
+        });
+
+        if (!res.ok) {
+            res.error = "Class not found"; 
+        }
+
+        const data = await res.json();
+        console.log(data);
+    } catch (err) {
+        console.error(err);
+    }
+    loadClasses();
 }
 
 async function deleteMessage(messageid){

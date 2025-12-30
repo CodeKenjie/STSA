@@ -314,10 +314,15 @@
 .classesContainer ul button {
     font-size: var(--bfs);
     background-color: var(--subcolor);
-    margin: .5em;
+    margin: 5px;
     border-radius: 5px;
     border-style: none;
-    padding: .5em;
+    padding: 5px;
+}
+
+.leaveClass {
+    padding: 0;
+    margin: 0;
 }
 
 .classesContainer ul button:hover {

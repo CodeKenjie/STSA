@@ -333,6 +333,25 @@ app.post("/createClass", auth, async (req, res) => {
   }
 });
 
+app.post("/classes/:classId/leaveClass", auth, classAccess, async(req, res) => {
+  try {
+    const leaveClass = await Class.findByIdAndUpdate(
+      req.params.classId,
+      { $pull: { members: req.userId } },
+      { new: true }
+    );
+
+    if (!leaveClass) {
+      return res.status(404).json({ error: "Class not found" });
+    }
+
+    res.status(200).json({ ok: true, leaveClass });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
 app.post("/classes/:classId/sendMessage", auth, classAccess, async (req, res) => {
   try{
     if(!req.body.message){
