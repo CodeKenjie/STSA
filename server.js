@@ -10,8 +10,6 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const path = require("path");
-const http = require("http");
-const fs = require("fs");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -50,15 +48,12 @@ const uploadCover = multer({ storage: coverStorage });
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:5500"
-}));
-
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-app.get("api/test", (req, res) => {
+app.get("/api", (req, res) => {
     res.json({ status: "ok" });
 });
 
@@ -447,7 +442,9 @@ app.patch("/classes/:classId/joinClass", auth, async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
   console.log("Server running on port 3000");
 });
 
