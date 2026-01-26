@@ -373,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     e.preventDefault();
     const login = document.getElementById("login");
     const token = localStorage.getItem("token");
-    const pages = ["/index.html", "/profile.html", "/verify.html"];
+    const pages = ["/mainpage.html", "/profile.html", "/verify.html"];
     const currentpage = window.location.pathname;
     if (pages.includes(currentpage) && !token){
         window.location.href = "mainpage.html";
@@ -403,7 +403,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 if (response.ok) {
                     localStorage.setItem("token", data.token);
                     currentUser = data._id;
-                    window.location.href = "index.html";
+                    window.location.href = "mainpage.html";
                 } else {
                     if (data.error === "User not found") {
                         document.getElementById("userNotRegistered").classList.remove("hidden");
