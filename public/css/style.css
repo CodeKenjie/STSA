@@ -1,0 +1,55 @@
+@import url('mainpage.css');
+@import url('register.css');
+@import url('login.css');
+@import url('index.css');
+@import url('keyframes.css');
+@import url('profile.css');
+
+:root{
+    --is: 25px;
+    --fc: white;
+    --fs: 20px;
+    --bfs: 18px;
+    --reg: 300;
+    --mid: 500;
+    --bold: 700;
+    --bg: rgba(16, 17, 46, 0.75);
+    --mainbg: rgba(255, 255, 255, 0.80);
+    --bc: #48B0FA;
+    --hc: #6ac1ff;
+    --ab: #1f5074;
+    --shadow: 0 4px 6px rgba(0, 0, 0, .4);
+    --strength: rgba(255, 255, 255, 0.466);
+    --subfc: #6c6c6c;
+    --solidbg: white;
+    --mainbutton: #e9e9e9;
+    --subcolor: #d9d9d9;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+a, a:link, a:visited, a:active {
+    text-decoration: none;
+}
+
+h1, h2, h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.hidden{
+    display: none;
+}

@@ -1,0 +1,277 @@
+#profile{
+    background-color: var(--bg);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 100vh;
+}
+
+.profileForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: var(--solidbg);
+    box-shadow: var(--shadow);
+    border-radius: 3px;
+    width: auto;
+    height: 95%;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.background {
+    background: rgb(34, 34, 34);
+    width: fit-content;
+    height: fit-content;
+    animation: right-slide 1s ease;
+    z-index: 1;
+    border: none;
+    outline: none;
+}
+
+.background img{
+    display: block;
+    width: 50em;
+    height: 20em;
+    border: none;
+    outline: none;
+}
+
+.picture{
+    background-color: var(--solidbg);
+    width: 250px;
+    height: 250px;
+    display: flex;
+    border-radius: 50%;
+    border: solid;
+    border-width: 5px;
+    border-color: var(--solidbg);
+    box-shadow: var(--shadow);
+    z-index: 2;
+    animation: spin-right-appear 1s ease;
+}
+
+.picture:hover{
+    transform: scale(1.1);
+    transition: transform .5s ease;
+}
+
+.dp{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    justify-content: center;
+    background-color: transparent;
+    margin-top: -120px;
+    margin-bottom: 3em;
+}
+
+#uploadDropDown{
+    position: absolute;
+    align-self: flex-start;
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
+    margin: 10px;
+    z-index: 3;
+}
+
+.udd {
+    display: flex;
+    flex-direction: column;
+    align-self: self-start;
+    background-color: var(--solidbg);
+    box-shadow: var(--shadow);
+    border-radius: 5px;
+    height: 0;
+    width: 0;
+    padding: 0;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.udd.drop{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    padding-top: 2em;
+    margin-top: -1.95em;
+    margin-left: -2px;
+}
+
+.udd label{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: var(--mid);
+    width: fit-content;
+    height: fit-content;
+    gap: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    opacity: 50%;
+}
+
+.udd label:hover{
+    background-color: var(--hc);
+    opacity: 100%;
+}
+
+.udd img{
+    width: 16px;
+    height: 16px;
+}
+
+.camera{
+    background-color: var(--solidbg);
+    width: fit-content;
+    height: fit-content;
+    margin-right: 5em;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: var(--solidbg);
+    z-index: 3;
+}
+
+.camera img{
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.camera:hover{
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.info{
+    font-size: var(--bfs);
+    font-weight: var(--mid);
+    justify-self: start;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 0 10px 0;
+    list-style: none;
+    animation: right-slide 1s ease-in;
+}
+
+.info:hover{
+    transform: scale(1.02);
+    transition: transform .5s ease;
+}
+
+.userInfo{
+    display: flex;
+    justify-content: center;
+    animation: left-slide 1s ease;
+}
+
+.infoBox{
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+    width: 75%;
+    height: 80%;
+    padding: 1em;
+    animation: right-slide 1s ease-in;
+    overflow: auto;
+    scrollbar-width: none;
+    overflow-wrap: anywhere;
+}
+
+.infoBox input{
+    font: var(--fs);
+    padding: 10px;
+    margin-bottom: 1em;
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 70%;
+}
+
+
+.infoBox:hover{
+    transform: scale(1.05);
+    transition: transform .5s ease;
+}
+
+.ediv {
+    display: flex;
+    justify-content: end;
+
+}
+
+.edit{
+    background-color: var(--solidbg);
+    border-style: none;
+    padding: 0;
+    width: fit-content;
+    height: fit-content;
+    opacity: 50%;
+}
+
+#editIcon{
+    width: 15px;
+    height: 15px;
+}
+
+.edit:hover{
+    transform: scale(1.1);
+    transition: transform .5s ease;
+}
+
+#scBtn{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.saveBtn{
+    font-size: var(--bfs);
+    padding: 0.5em;
+    border-radius: 5px;
+    border-style: none;
+    background-color: var(--bc);
+    color: var(--fc);
+}
+
+.saveBtn:hover{
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    background-color: var(--hc);
+}
+
+#home{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    animation: rigth-slid 1s ease;
+}
+
+#homeIcon{
+    width: var(--is);
+    height: var(--is);
+    animation: spin-right-appear 1s ease;
+}
+
+.label{
+    font-size: 11px;
+    color: var(--subfc);
+    padding: 0;
+    margin: 0;
+}
+
+.label.ledit{
+    font-size: 12px;
+    color: var(--subfc);
+    background-color: var(--solidbg);
+    padding: 0 5px;
+    margin: 10px 0 -7px 5px;
+    width: fit-content;
+    z-index: 1;
+}

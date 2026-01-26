@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.T.S.A - Log in</title>
+    <link rel="icon" type="image/png" href="css/imgs/mainlogo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="login">
+    <form id="loginForm">
+        <a class="login_logo" href="mainpage.html"><img class="login_logo" src="css/imgs/mainlogo.png"></a>
+        <h1 class="login_title">S.T.S.A</h1>
+        <h3 id="login_title">School Task, Schedule, Announcement</h3>
+        <p id="userNotRegistered" class="reminder">*Username/email doesn't exist</p>
+        <input id="User" class="inputbox" type="text" placeholder="School Email/Username" required>
+        <p id="incorrectPassword" class="reminder">*Incorrect Password</p>
+        <div class="pass">
+            <input id="Password"class="inputbox" type="password" placeholder="Password" required><button class="showhide" type="button" onclick="showHide('loginShowHide', 'Password')"><img id="loginShowHide" class="show" src="css/imgs/show.png"></button>
+        </div>
+        <label class="remember"><input type="checkbox" value="Remember">Remember me</label>
+        <button id="enter" class="submit" type="submit">Log in</button>
+        <a id="forgot" class="otheroption" href="">Forgotten your password?</a>
+        <a id="regs" class="otheroption" href="register_account.html">Register Account</a>
+
+        <script src="js/script.js" defer></script>
+    </form>
+</body>
+</html>

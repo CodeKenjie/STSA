@@ -1,0 +1,157 @@
+#register{
+    display: grid;
+    background: var(--bg);
+    background-size: 35%;
+    place-items: center;
+    min-height: 100vh;
+}
+
+#title{
+    font-size: 32px;
+    font-weight: var(--reg);
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.form{
+    display: grid;
+    background-color: var(--mainbg);
+    width: auto;
+    height: auto;
+    padding: 0 5em;
+    place-items: center;
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+    animation: right-slide 1s ease;
+}
+
+.logo {
+    margin: 1.5em 0 1em;
+    width: 10em;
+    text-align: center;
+}
+
+.inputbox{
+    height: 1em;
+    width: 15em;
+    border-radius: 10px;
+    border-color: var(--subfc);
+    border-width: 1px;
+    border-style: solid;
+    padding: 20px;
+    font-size: var(--fs);
+}
+#email{
+    margin-bottom: 1em;
+}
+#username{
+    margin-bottom: 1em;
+}
+.userinfo{
+    display: grid;
+    place-items: center;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+}
+.pass{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+}
+
+.showhide{
+    justify-self: center;
+    border-style: none;
+    background-color: transparent;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+    margin-left: -3rem;
+    margin-top: 0.2rem;
+    background-color: transparent;
+}
+
+.show{
+    opacity: 50%;
+    width: 2rem;
+    hight: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.show:hover{
+    transform: scale(1.05);
+    transition: transform 1s ease;
+}
+
+#password{
+    padding-right: 45px;
+    margin-bottom: 0.3em;
+}
+#confpass{
+    padding-right: 45px;
+}
+
+#checker{
+    font-size: 12px;
+    list-style-type: none;
+    justify-self: start;
+    margin: 0 2em 0;
+    color: var(--subfc);
+    margin:0 0 1em 0;
+}
+
+.strength{
+    animation: right-slide 1s ease;
+}
+
+.inputbox:focus{
+    outline: none;
+}
+
+.reminder{
+    color: var(--subfc);
+    font-size: 12px;
+    justify-self: start;
+    margin: 0 0 0 2em;
+}
+
+#tnc{
+    margin-top: 5rem;
+}
+
+.submit {
+    color: var(--fc);
+    font-size: 1rem;
+    font-weight: var(--bold);
+    background-color: var(--bc);
+    border-radius: 10em;
+    border-style: none;
+    height: 4rem;
+    width: 11rem;
+    justify-self: start;
+    margin: .5em 0 3em 2em;
+    box-shadow: var(--shadow);
+}
+
+.submit:hover{
+    transform: scale(1.05);
+    transition: transform 0.5s ease;
+    background-color: var(--hc);
+}
+
+.submit:active{
+    background-color: #347db1;
+}
+
+.options{
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 2em -4em;
+    gap: 10px;
+}

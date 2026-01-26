@@ -1,0 +1,149 @@
+.mainpage{
+    background: var(--bg) url("imgs/mainbg.png") no-repeat center right fixed;
+    background-size: 30%;
+    transform: rotate(360deg);
+}
+.nav {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    grid-template-columns: 0.2fr 3fr 1fr 1fr;
+    background-color: white;
+    height: auto;
+    text-align: center;
+    gap: 2px;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    animation: down-slide 1s ease;
+}
+.nav_logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: spin 1s ease;
+}
+.nav_logo img{
+    width: 2em;
+    margin: 10px;
+}
+
+.nav_logo:hover {
+    transform: scale(1.5) rotate(360deg);
+    transition: transform 0.3s ease;
+}
+.nav_title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    width: 100%;
+}
+.nav_title h3{
+    font-size: var(--fs);
+    margin: 0;
+    cursor: default;
+}
+
+.nav_title h3:hover{
+    transform: scale(1.10) translate(40px);
+    transition: transform 0.5s ease;
+}
+
+.nav_reglog {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 2px;
+}
+.nav_reglog div {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-right: 10px;
+}
+.nav_reglog a {
+    font-weight: var(--bold);
+    font-size: var(--fs);
+    background-color: var(--bc);
+    box-shadow: var(--shadow);
+    color: rgb(255, 255, 255);
+    padding: 1em;
+    width: 18em;
+}
+
+.nav_reglog a:hover {
+    transform: scale(1.05);
+    transition: transform 0.5s ease;
+    background-color: var(--hc);
+}
+
+.page{
+    display: flex;
+    top: 0;
+    height: 100%;
+    z-index: 1;
+}
+
+.content{
+    position: static;
+    width: 100%;
+    top: 0;
+    height: 100vh;
+    background: var(--mainbg);
+    box-shadow: var(--shadow);
+    z-index: 1;
+    clip-path: polygon(0 0, 60% 0, 80% 100%, 0% 100%);
+    animation: right-slide 1s ease;
+}
+
+.title{
+    width: 50%;
+    font-size: 10em;
+    font-weight: var(--mid);
+    margin: 0.5em 0 .2em 0.2em;
+    text-shadow: var(--shadow);
+    cursor: default;
+    animation: appear 2s ease;
+}
+
+.title:hover {
+    transform: scale(1.1) translate(50px);
+    transition: transform .5s ease;
+}
+
+.about{
+    width: 60%;
+    margin: 5em 0 5em 2em;
+    text-shadow: var(--shadow);
+    cursor: default;
+    z-index: 2;
+}
+
+.about:hover{
+    transform: scale(1.1) translate(50px);
+    transition: transform .5s ease;
+}
+
+.about_title{
+    font-size: 3em;
+    margin: 0.5em 0 .2em .6em;
+    cursor: default;
+    animation: right-slide 2s ease;
+}
+
+.about_content {
+    font-size: 2em;
+    margin-left: 2em;
+    padding-left: 0;
+    cursor: default;
+    animation: right-slide 2.5s ease-in;
+}
+
+.authors {
+    list-style-type: none;
+    margin-bottom: 10px;
+    cursor: default;
+}

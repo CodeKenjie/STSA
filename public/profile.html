@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="icon" href="css/imgs/mainlogo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="profile">
+    <a id="home" class="icon" href="index.html">
+        <img id="homeIcon" src="css/imgs/home.png" alt="home">
+    </a>
+    <form id="info" class="profileForm">
+        <div class="box">
+            <div class="background">
+                <img id="coverPhoto" src="" alt="">
+            </div>
+            <div id="uploadDropDown">
+                <button id="cameradd" class="camera" type="button">
+                    <img class="cameraIcon" src="css/imgs/camera.png" alt="imgs">
+                </button>
+                <div id="uploads" class="udd">
+                    <input id="avatar" accept="image/*" type="file" hidden>
+                    <label for="avatar"><img src="css/imgs/profile.png" alt="avatar">Upload avatar</label>
+                    <input id="cover" accept="image/*" type="file" hidden>
+                    <label for="cover"><img src="css/imgs/cover.png" alt="cover">Upload cover photo</label>
+                </div>
+            </div>
+            <div class="dp">
+                <img class="picture" id="profilePic" src="" alt="a">
+            </div>
+            <div class="userInfo">
+                <ul class="infoBox">
+                    <div class="ediv">
+                        <button id="edit" class="edit" type="button"><img id="editIcon" src="css/imgs/edit.png" alt="profile"></button>
+                    </div>
+                    <p id="lname" class="label">Username</p>
+                    <li id="username" class="info"></li>
+                    <p id="lemail" class="label">Email</p>
+                    <li id="email" class="info"></li>
+                    <p id="lbd" class="label">Birth date</p>
+                    <p id="birthdate" class="info"></p>
+                    <p id="lschool" class="label">School</p>
+                    <li id="school" class="info"></li>
+                    <p id="lyear" class="label">Year level</p>
+                    <li id="year" class="info"></li>
+                    <p id="lcourse" class="label">Course</p>
+                    <li id="course" class="info"></li>
+                    <p id="lverify" class="label">Verified: </p><p id="verification" class="label"></p>
+                    <div id="scBtn">
+                        <button id="save" class="saveBtn">save</button>
+                        <button id="cancel" class="saveBtn" type="submit">cancel</button>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </form>
+    <script src="js/script.js" defer></script>
+</body>
+</html>
