@@ -1,4 +1,5 @@
 const currentUserId = getCurrentUser();
+const backend = `https://stsa.onrender.com`;
 const ACTIVE_LIMIT = 1 * 60 * 1000;
 
 function parseJwt(token) {
@@ -23,12 +24,12 @@ function showHide(id, type){
     const img = document.getElementById(id);
     const pass = document.getElementById(type);
 
-    if (img.src.match("/public/css/imgs/show.png")){
+    if (img.src.match("css/imgs/show.png")){
         pass.type = "text";
-        img.src = "/public/css/imgs/hide.png";
+        img.src = "css/imgs/hide.png";
     } else {
         pass.type = "password";
-        img.src = "/public/css/imgs/show.png";
+        img.src = "css/imgs/show.png";
     }
 }
 
@@ -54,7 +55,7 @@ async function renderList({ data, containerId, renderItem }){
 async function deleteItem(id){
     try{
         const token = localStorage.getItem("token");
-        await fetch(`http://localhost:3000/delete/${id._id}`, {
+        await fetch(`${backend}/delete/${id._id}`, {
             method: "DELETE",
             headers: {
                 Authorization: "Bearer " + token
@@ -68,7 +69,7 @@ async function deleteItem(id){
 async function loadUserTask(){
     try{
         const token = localStorage.getItem("token");
-        const res = await fetch ("http://localhost:3000/loadUser", {
+        const res = await fetch (`${backend}/loadUser`, {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + token
@@ -104,7 +105,7 @@ async function loadUserTask(){
                     label.style.opacity = input.checked ? "50%" : "100%";
                     try {
                         const token = localStorage.getItem("token");
-                        await fetch(`http://localhost:3000/completed/${todo._id}`, {
+                        await fetch(`${backend}/completed/${todo._id}`, {
                             method: "PATCH",
                             headers: {
                                 "Content-Type": "application/json",
@@ -187,7 +188,7 @@ async function loadUserTask(){
 async function loadMessages(class_id) {
     try{
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:3000/classes/${class_id}/loadMessages`, {
+        const res = await fetch(`${backend}/classes/${class_id}/loadMessages`, {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + token
@@ -271,7 +272,7 @@ let activeClass = null;
 async function loadClasses(){
     try{
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:3000/loadUser`, {
+        const res = await fetch(`${backend}/loadUser`, {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + token
@@ -315,7 +316,7 @@ async function loadClasses(){
 async function leaveClass(){
     try{
         const token = localStorage.getItem("token");
-        const res = await fetch (`http://localhost:3000/classes/${activeClass}/leaveClass`, {
+        const res = await fetch (`${backend}/classes/${activeClass}/leaveClass`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -338,7 +339,7 @@ async function leaveClass(){
 async function deleteMessage(messageid){
     try{
         const token = localStorage.getItem("token");
-        await fetch(`http://localhost:3000/classes/${activeClass}/deleteMessage/${messageid._id}`, {
+        await fetch(`${backend}/classes/${activeClass}/deleteMessage/${messageid._id}`, {
             method: "DELETE",
             headers: {
                 Authorization: "Bearer " + token
@@ -352,7 +353,7 @@ async function deleteMessage(messageid){
 async function editMessage(messageid, newMessage){
     try{
         const token = localStorage.getItem("token");
-        await fetch(`http://localhost:3000/classes/${activeClass}/editMessage/${messageid._id}`, {
+        await fetch(`${backend}/classes/${activeClass}/editMessage/${messageid._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -372,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     e.preventDefault();
     const login = document.getElementById("login");
     const token = localStorage.getItem("token");
-    const pages = ["/index.html", "/profile.html", "/verify.html"];
+    const pages = ["/mainpage.html", "/profile.html", "/verify.html"];
     const currentpage = window.location.pathname;
     if (pages.includes(currentpage) && !token){
         window.location.href = "mainpage.html";
@@ -389,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             const password = document.getElementById('Password').value;
 
             try{
-                const response = await fetch("http://localhost:3000/login", {
+                const response = await fetch(`${backend}/login`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -402,7 +403,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 if (response.ok) {
                     localStorage.setItem("token", data.token);
                     currentUser = data._id;
-                    window.location.href = "index.html";
+                    window.location.href = "mainpage.html";
                 } else {
                     if (data.error === "User not found") {
                         document.getElementById("userNotRegistered").classList.remove("hidden");
@@ -462,7 +463,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 }
 
                 try{
-                    const res = await fetch("http://localhost:3000/loadUser", {
+                    const res = await fetch(`${backend}/loadUser`, {
                         headers: {
                             Authorization: "Bearer " + token
                         }
@@ -500,7 +501,7 @@ document.addEventListener("DOMContentLoaded", function(e){
 
             try {
                 const token = localStorage.getItem("token");
-                const res = await fetch("http://localhost:3000/addTask", {
+                const res = await fetch(`${backend}/addTask`, {
                     method: "POST",
                     headers: {
                         "Content-type": "application/json",
@@ -531,7 +532,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             try{
                 const token = localStorage.getItem("token");
 
-                const res = await fetch("http://localhost:3000/addSched", {
+                const res = await fetch(`${backend}/addSched`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -563,7 +564,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             const link = document.getElementById("link");
             try {
                 const token = localStorage.getItem("token");
-                const res = await fetch ("http://localhost:3000/addModule", {
+                const res = await fetch (`${backend}/addModule`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -592,7 +593,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             const className = document.getElementById("className");
             try{
                 const token = localStorage.getItem("token");
-                const res = await fetch(`http://localhost:3000/createClass`, {
+                const res = await fetch(`${backend}/createClass`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -615,7 +616,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             const getClassId = document.getElementById("classId");
             try{
                 const token = localStorage.getItem("token");
-                const res = await fetch(`http://localhost:3000/classes/${getClassId.value}/joinClass`, {
+                const res = await fetch(`${backend}/classes/${getClassId.value}/joinClass`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
@@ -645,7 +646,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             }
             try {
                 const token = localStorage.getItem("token");
-                const res = await fetch(`http://localhost:3000/classes/${activeClass}/sendMessage`, {
+                const res = await fetch(`${backend}/classes/${activeClass}/sendMessage`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -699,7 +700,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 }
 
                 try {
-                    const res = await fetch("http://localhost:3000/loadUser", {
+                    const res = await fetch(`${backend}/loadUser`, {
                         headers: {
                             Authorization: "Bearer " + token
                         }
@@ -788,7 +789,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 
                 try{
                     const token = localStorage.getItem("token");
-                    const res = await fetch("http://localhost:3000/update", {
+                    const res = await fetch(`${backend}/update`, {
                         method: "PUT",
                         headers: {
                             "Content-type": "application/json",
@@ -827,7 +828,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 
                 try{
                     const token = localStorage.getItem("token");
-                    const res = await fetch("http://localhost:3000/upload-avatar", {
+                    const res = await fetch(`${backend}/upload-avatar`, {
                         method: "POST",
                         headers: {
                             Authorization: "Bearer " + token
@@ -853,7 +854,7 @@ document.addEventListener("DOMContentLoaded", function(e){
 
                 try {
                     const token = localStorage.getItem("token");
-                    const res = await fetch("http://localhost:3000/upload-cover", {
+                    const res = await fetch(`${backend}/upload-cover`, {
                         method: "POST",
                         headers: {
                             Authorization: "Bearer " + token
@@ -934,7 +935,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             }
                 document.getElementById("warning").classList.add("hidden");
 
-            fetch("http://localhost:3000/register_account", {
+            fetch(`${backend}/register_account`, {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json"

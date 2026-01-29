@@ -9,15 +9,15 @@
 .sidebar{
     display: flex;
     flex-direction: column;
-    position: fixed;
+    position: absolute;
     top:0;
     left: 0;
-    width: 400px;
+    width: 32rem;
     height: 100vh;
     background-color: var(--solidbg);
     z-index: 1;
     box-shadow: var(--shadow);
-    transform: translateX(-87%);
+    transform: translateX(-90%);
     transition: transform .1s ease;
     animation: menuAnimation 1s;
 }
@@ -48,7 +48,7 @@
     justify-content: start;
     width: auto;
     height: fit-content;
-    transform: translateX(87%);
+    transform: translateX(90%);
     transition: transform 0.1s ease;
 }
 
@@ -281,6 +281,12 @@
     gap: 10px;
 }
 
+#sendAnnouncement{
+    background: var(--solidbg);
+    padding: 1em;
+    position: sticky;
+    bottom: -1em;
+}
 .subtitle {
     display: grid;
     grid-template-columns: auto 1fr 24px;
@@ -350,8 +356,9 @@
 }
 
 .joinClass.open{
-    height: 17em;
+    height: fit-content;
     width: auto;
+    padding: 1em;
     transition: height 1s ease;
 }
 
@@ -375,6 +382,8 @@
     display: grid;
     grid-template-rows: 1fr auto;
     height: auto;
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .messages ul {
@@ -478,7 +487,7 @@
     border-radius: 5px;
     border-style: none;
     padding: 0.5em;
-    width: 29em;
+    width: auto;
     resize: none;
     height: auto;
     overflow-wrap: break-word;

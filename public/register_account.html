@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.T.S.A - Register Account</title>
-    <link rel="icon" type="image/png" href="/public/css/imgs/mainlogo.png">
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="icon" type="image/png" href="css/imgs/mainlogo.png">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body id="register">
     <form id="form" class="form">
         <div class="userinfo">
-            <a href="/public/mainpage.html"><img class="logo" src="/public/css/imgs/mainlogo.png"></a>
+            <a href="mainpage.html"><img class="logo" src="css/imgs/mainlogo.png"></a>
             <h1 id="title">Register Account</h1>
             <p id="existemail" class="reminder">*Email already exist</p>
             <input id="email" class="inputbox" type="email" placeholder="School Email" required autocomplete="email">
@@ -19,7 +19,7 @@
         </div>
         <p id="warning" class="reminder">*Password must contain at least 6 characters</p>
         <div class="pass">
-            <input id="password" class="inputbox" type="password" placeholder="Password" required><button class="showhide" type="button" onclick="showHide('psh', 'password')"><img id="psh" class="show" src="/public/css/imgs/show.png"></button>
+            <input id="password" class="inputbox" type="password" placeholder="Password" required><button class="showhide" type="button" onclick="showHide('psh', 'password')"><img id="psh" class="show" src="css/imgs/show.png"></button>
         </div>
         <ul id="checker">
             <li id="length" class="strength">6 characters or longer</li>
@@ -28,7 +28,7 @@
         </ul>
         <p id="error" class="reminder">*Password donsn't match</p>
         <div class="pass">
-            <input id="confpass" class="inputbox" type="password" placeholder="Confirm Password" required><button class="showhide" type="button" onclick="showHide('cpsh', 'confpass')"><img id="cpsh" class="show" src="/public/css/imgs/show.png"></button>
+            <input id="confpass" class="inputbox" type="password" placeholder="Confirm Password" required><button class="showhide" type="button" onclick="showHide('cpsh', 'confpass')"><img id="cpsh" class="show" src="css/imgs/show.png"></button>
         </div>
         <p id="unchecked" class="reminder">*you must accept the terms and condition</p>
         <label id="tnc" class="reminder">
@@ -36,10 +36,10 @@
         </label>
         <button class="submit" type="submit">Create Account</button>
         <div class="options">
-            <a class="otherOption" href="/public/login.html">I already have an account</a>
-            <a class="otherOption" href="/public/mainpage.html">I want to know more</a>
+            <a class="otherOption" href="login.html">I already have an account</a>
+            <a class="otherOption" href="mainpage.html">I want to know more</a>
         </div>
-        <script src="/public/js/script.js" defer></script>
+        <script src="js/script.js" defer></script>
     </form> 
 </body>
 </html>

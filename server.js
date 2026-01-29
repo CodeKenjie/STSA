@@ -48,14 +48,25 @@ const uploadCover = multer({ storage: coverStorage });
 
 const app = express();
 
+<<<<<<< HEAD
 app.use(cors({
   origin: "http://localhost:5500"
 }));
 
+=======
+app.use(cors());
+>>>>>>> bcf7d5ff832a68b37a26eea553734fe5a791fe59
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
+<<<<<<< HEAD
+=======
+app.get("/api", (req, res) => {
+    res.json({ status: "ok" });
+});
+
+>>>>>>> bcf7d5ff832a68b37a26eea553734fe5a791fe59
 mongoose.connect("mongodb+srv://franciskenjiemaraasin_db_user:luockkxssouse@cluster0.eglmq1z.mongodb.net/regiteredUser")
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err)
@@ -441,6 +452,15 @@ app.patch("/classes/:classId/joinClass", auth, async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
+=======
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port 3000");
+});
+
+>>>>>>> bcf7d5ff832a68b37a26eea553734fe5a791fe59
