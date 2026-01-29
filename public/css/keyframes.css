@@ -1,0 +1,78 @@
+@keyframes right-slide {
+    0%{
+        opacity: 0;
+        transform: translate(-100%);
+    } 100% {
+        opacity: 100;
+        transform: translate(0);
+    }
+}
+
+@keyframes left-slide {
+    0%{
+        opacity: 0;
+        transform: translate(100%);
+    } 100% {
+        opacity: 100;
+        transform: translate(0);
+    }
+}
+
+@keyframes down-slide{
+    0%{
+        transform: translateY(-100%);
+    } 100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes appear {
+    0%{
+        opacity: 0%;
+    } 100% {
+        opacity: 50%;
+    }
+}
+
+@keyframes spin-right-appear {
+    0% {
+        transform: scale(0);
+        border-radius: 100%;
+        opacity: 0;
+    } 100% {
+        opacity: 100%;
+        transform: scale(1) rotate(-360deg);
+    }
+}
+
+@keyframes spin-left-appear {
+    0% {
+        transform: scale(0);
+        border-radius: 100%;
+        opacity: 0;
+    } 100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 100%;
+    }
+}
+
+@keyframes bell-appear {
+    0% {
+        transform: scale(0);
+        border-radius: 100%;
+        opacity: 0;
+    } 50% {
+        opacity: 100%;
+        transform: scale(1) rotate(400deg);
+    } 100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes menuAnimation {
+    0%{
+        transform: translate(-100%);
+    } 100% {
+        transform: translate(-87%);
+    }
+}

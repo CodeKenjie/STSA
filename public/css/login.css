@@ -1,0 +1,68 @@
+#login {
+    display: grid;
+    background: var(--bg);
+    background-size: 35%;
+    place-items: center;
+    min-height: 100vh;
+    
+}
+#loginForm {
+    display: grid;
+    background-color: var(--mainbg);
+    width: auto;
+    height: auto;
+    place-items: center;
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+    animation: right-slide 1s ease;
+}
+
+.login_logo{
+    margin: 1.5em 0 0 0;
+    width: 20em;
+    text-align: center;
+}
+
+.login_title{
+    font-weight: var(--reg);
+    font-size: 5em;
+    margin: 0 3em;
+}
+
+#userNotRegistered{
+    color: red;
+    margin-left: 26em;
+}
+
+#incorrectPassword{
+    color: red;
+    margin-left: 26em;
+}
+
+#User{
+    margin-bottom: 5px;
+}
+
+#Password{
+    padding-right: 45px;
+    margin-bottom: 5px;
+}
+#enter{
+    justify-self: center;
+    margin-top: 1em;
+    padding: 1.5em;
+}
+
+#forgot{
+    justify-self: center;
+    margin-bottom: 0.5em;
+}
+#regs{
+    justify-self: center;
+    margin-bottom: 2.5em;
+}
+
+.remember{
+    justify-self: start;
+    margin: 0 14em;
+}
