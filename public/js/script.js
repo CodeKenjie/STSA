@@ -1,5 +1,5 @@
 const currentUserId = getCurrentUser();
-const backend = `http://localhost:3000`;
+const backend = `https://stsa.onrender.com`;
 const ACTIVE_LIMIT = 1 * 60 * 1000;
 
 function parseJwt(token) {
