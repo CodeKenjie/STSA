@@ -33,6 +33,15 @@ const userSchema = new Schema({
   school: String,
   year: String,
   course: String,
+
+  verificationCode: {
+    type: String,
+  },
+
+  codeExpiration: {
+    type: Date,
+  },
+
   verified: {
     type: Boolean,
     default: false,

@@ -18,8 +18,7 @@
     background-color: var(--mainbg);
     width: auto;
     height: auto;
-    padding: 0 5em;
-    place-items: center;
+    padding: 5em;
     border-radius: 3px;
     box-shadow: var(--shadow);
     animation: right-slide 1s ease;
@@ -32,15 +31,17 @@
 }
 
 .inputbox{
-    height: 1em;
-    width: 15em;
+    min-height: 1em;
+    min-width: 15em;
     border-radius: 10px;
     border-color: var(--subfc);
     border-width: 1px;
     border-style: solid;
-    padding: 20px;
+    padding: 0.5em;
     font-size: var(--fs);
 }
+
+
 #email{
     margin-bottom: 1em;
 }
@@ -56,23 +57,23 @@
     height: fit-content;
 }
 .pass{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    position: relative;
+    display: grid;
+    align-items: center;
     margin: 0;
     padding: 0;
     height: fit-content;
 }
 
 .showhide{
+    position: absolute;
+    right: 0.5em;
     justify-self: center;
     border-style: none;
     background-color: transparent;
     width: fit-content;
     height: fit-content;
-    padding: 5px;
     margin-left: -3rem;
-    margin-top: 0.2rem;
     background-color: transparent;
 }
 
@@ -89,21 +90,16 @@
     transition: transform 1s ease;
 }
 
-#password{
-    padding-right: 45px;
-    margin-bottom: 0.3em;
-}
-#confpass{
-    padding-right: 45px;
+#password, #confpass{
+    padding-right: 2em;
 }
 
 #checker{
     font-size: 12px;
     list-style-type: none;
     justify-self: start;
-    margin: 0 2em 0;
     color: var(--subfc);
-    margin:0 0 1em 0;
+    padding-left: 0;
 }
 
 .strength{
@@ -117,8 +113,7 @@
 .reminder{
     color: var(--subfc);
     font-size: 12px;
-    justify-self: start;
-    margin: 0 0 0 2em;
+    margin: 0;
 }
 
 #tnc{
@@ -134,8 +129,7 @@
     border-style: none;
     height: 4rem;
     width: 11rem;
-    justify-self: start;
-    margin: .5em 0 3em 2em;
+    margin: .5em 0 3em 0;
     box-shadow: var(--shadow);
 }
 
@@ -151,7 +145,7 @@
 
 .options{
     display: flex;
+    justify-self: start;
     flex-direction: column;
-    margin: 0 0 2em -4em;
     gap: 10px;
 }

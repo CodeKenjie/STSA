@@ -4,10 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.T.S.A Account Verification</title>
-    <link rel="icon" href="/public/css/imgs/mainlogo.png">
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="icon" href="css/imgs/mainlogo.png">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <script scr="/public/js/script"></script>
+<body class="mainpage" id="verificationPage">
+    <div class="nav">
+        <div class="nav_logo">
+            <a href="login.html"><img src="css/imgs/navlogo.png"></a>
+        </div>
+        <div class="nav_title">
+            <h3>School Task, Schedule, Announcement</h4>
+        </div>
+        <div class="nav_reglog">
+            <a href="mainpage.html">continue without verifying my email</a>
+        </div>
+    </div>
+    <form id="verifyForm">
+        <h1>Verification</h1>
+        <h4>
+            Check your email for your Verification Code:
+        </h4> 
+        <p id="yourEmail">your email</p>
+        <input id="code" class="inputbox" type="text">
+        <button class="submit" type="submit">verify me</button><br>
+        <button id="resend" class="resend" type="button">resend code</button>
+    </form>
+    <script src="js/script.js"></script>
 </body>
 </html>

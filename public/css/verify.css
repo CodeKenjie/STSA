@@ -1,0 +1,22 @@
+#verificationPage {
+    display: grid;
+    height: 100vh;
+    place-items: center;
+}
+#verifyForm {
+    width: fit-content;
+    height: auto;
+    background-color: var(--mainbg);
+    padding: 5em;
+    border-radius: 10px;
+
+    p {
+        font-weight: bold;
+        opacity: 50%;
+    }
+}
+
+.resend {
+    font-size: var(--bfs);
+    padding: 1em;
+}

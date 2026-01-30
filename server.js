@@ -9,7 +9,7 @@ const classAccess = require("./middleware/ClassAccess");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
-const path = require("path");
+const nodemailer= require("nodemailer");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -57,10 +57,46 @@ app.get("/api", (req, res) => {
     res.json({ status: "ok" });
 });
 
-mongoose.connect("mongodb+srv://franciskenjiemaraasin_db_user:luockkxssouse@cluster0.eglmq1z.mongodb.net/regiteredUser")
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err)
 );
+
+function generateCode(length = 6){
+  return Math.floor(Math.random() * Math.pow(10, length)).toString().padStart(length, "0");
+}
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+async function sendCode(email, code) {
+  try{
+    await transporter.verify();
+
+    if(!transporter.verify()){
+      console.log("verification failed")
+    }
+    await transporter.sendMail({
+      from: `"STSA" <no-reply@stsa.com>`,
+      to: email,
+      subject: "Account Verification",
+      html: `
+          <h2>WELCOME NEW USER!</h2>
+          <h3>this is your School Task, Shedule, Anouncement (STSA),</h3>
+          <p>here is your verification code:</p>
+          <h1>${code}</h1>
+          <p>please enter the code within 5 minutes.</p>
+      `
+    });
+  } catch(err){
+    console.log(err);
+  }
+}
 
 app.post("/register_account", async (req, res) => {
   try {
@@ -78,11 +114,22 @@ app.post("/register_account", async (req, res) => {
     const user = new User({
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      verificationCode: generateCode(),
+      codeExpiration: Date.now() + 10 * 60 * 1000
     });
 
     await user.save();
-    res.json({ ok: true });
+
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_PASS,
+      { expiresIn: "1d" }
+    );
+
+    await sendCode(user.email, user.verificationCode);
+
+    res.json({ token, ok: true });
   } catch (err) {
     console.error("SAVE ERROR:", err);
 
@@ -93,6 +140,59 @@ app.post("/register_account", async (req, res) => {
       });
     }
     res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/verify-email", auth, async (req, res) => {
+  try {
+    const { code } = req.body;
+    
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (String(user.verificationCode) !== String(code) || user.codeExpiration < Date.now()) {
+      return res.status(400).json({ error: "invalid Code or Code Expired"});
+    }
+
+    if (user.verified){
+      return res.status(400).json({ error: "user is already verified" });
+    }
+
+    user.verified = true;
+    user.verificationCode = undefined;
+    user.codeExpiration = undefined;
+    await user.save();
+    res.status(200).json({ message: "Email is verified" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "server error" });
+  }
+});
+
+app.put("/resend-code", auth, async (req, res) => {
+  const newCode = generateCode();
+  try {
+    const user = await User.findById(req.userId);
+    if(!user){
+      return res.status(404).json({ error: "user does not exist" });
+    }
+
+    if(user.verified){
+      return res.status(400).json({ error: "user is already verified" });
+    }
+
+    user.verificationCode = newCode;
+    user.codeExpiration = Date.now() + 10 * 60 * 1000;
+    
+    await user.save();
+    await sendCode(user.email, user.verificationCode);
+    res.status(200).json({ message: "new verification code sent" });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "server error"});
   }
 });
 
@@ -198,7 +298,7 @@ app.post("/addTask", auth, async (req, res) => {
     const todo = new Todo({
       user: req.userId,
       title: req.body.title,
-      due: new Date(req.body.due),
+      due: req.body.due,
       completed: req.body.completed ?? false
     });
 
@@ -442,7 +542,7 @@ app.patch("/classes/:classId/joinClass", auth, async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.listen(PORT, () => {
   console.log("Server running on port 3000");

@@ -1,10 +1,13 @@
 const currentUserId = getCurrentUser();
-const backend = `https://stsa.onrender.com`;
+const backend = `http://localhost:3000`;
 const ACTIVE_LIMIT = 1 * 60 * 1000;
 
 function parseJwt(token) {
     if (!token) return null;
-    const base64Url = token.split('.')[1]; // get payload
+    const parts = token.split('.');
+    if (parts.length < 2) return null;
+    const base64Url = token.split('.')[1];
+    if(!base64Url) return null;
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
         '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
@@ -17,8 +20,10 @@ function getCurrentUser() {
   if (!token) return null;
 
   const decoded = parseJwt(token);
+  if (!decoded || !decoded.userId) return null;
   return decoded.userId;
 }
+
 
 function showHide(id, type){
     const img = document.getElementById(id);
@@ -91,14 +96,17 @@ async function loadUserTask(){
                 label.style.opacity = input.checked ? "50%" : "100%";
 
                 const p = document.createElement("p");
-                p.textContent = new Date(todo.due).toLocaleString();
+                p.textContent = todo.due;
                 const button = document.createElement("button");
                 button.textContent = "-";
+                button.title = "remove todo";
 
                 button.addEventListener("click", async (e)=> {
                     e.preventDefault();
-                    deleteItem(todo);
-                    list.remove();
+                    if(confirm("are you sure you want to delete this Todo?")){
+                        deleteItem(todo);
+                        list.remove();
+                    }
                 });
 
                 input.addEventListener("change", async () => {
@@ -131,11 +139,14 @@ async function loadUserTask(){
                 p.textContent = subject.day + " " + subject.from + " - " + subject.to;
                 const button = document.createElement("button");
                 button.textContent = "-";
+                button.title = "remove shed";
 
                 button.addEventListener("click", async (e)=> {
                     e.preventDefault();
-                    deleteItem(subject);
-                    list.remove();
+                    if (confirm("are you sure you want to delete this Schedule?")) {
+                        deleteItem(subject);
+                        list.remove();
+                    }
                 });
 
                 list.append(label, p, button);
@@ -151,11 +162,14 @@ async function loadUserTask(){
                 a.href = "#";
                 const button = document.createElement("button");
                 button.textContent = "-";
+                button.title = "remove module";
 
                 button.addEventListener("click", async (e)=> {
                     e.preventDefault();
-                    deleteItem(link);
-                    list.remove();
+                    if (confirm("are you sure you want to delete this module?")) {
+                        deleteItem(link);
+                        list.remove();
+                    }
                 });
 
                 a.addEventListener("click", () => {
@@ -216,6 +230,7 @@ async function loadMessages(class_id) {
                 p.textContent = message.message;
                 const deleteBtn = document.createElement("button");
                 deleteBtn.textContent = "-";
+                deleteBtn.title = "Delete announcement";
                 const editBtn = document.createElement("button");
                 editBtn.textContent = "edit";
                 const saveBtn = document.createElement("button");
@@ -237,8 +252,10 @@ async function loadMessages(class_id) {
 
                 deleteBtn.addEventListener("click", async (e) => {
                     e.preventDefault();
-                    deleteMessage(message);
-                    list.remove();
+                    if(confirm("are you sure you want to delete this annoucement?")) {
+                        deleteMessage(message);
+                        list.remove();
+                    }
                 });
 
                 editBtn.addEventListener("click", async (e) => {
@@ -295,8 +312,10 @@ async function loadClasses(){
 
             leave.addEventListener("click", (e) => {
                 e.preventDefault();
-                leaveClass();
-                button.remove();
+                if(confirm("are you sure you want to leave this class?")) {
+                    leaveClass();
+                    button.remove();
+                }
             });
 
             classesList.appendChild(button);
@@ -369,8 +388,7 @@ async function editMessage(messageid, newMessage){
     loadMessages(activeClass);
 }
 
-document.addEventListener("DOMContentLoaded", function(e){
-    e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
     const login = document.getElementById("login");
     const token = localStorage.getItem("token");
     const pages = ["/mainpage.html", "/profile.html", "/verify.html"];
@@ -498,6 +516,9 @@ document.addEventListener("DOMContentLoaded", function(e){
             e.preventDefault();
             const inputLabel = document.getElementById("todo_title");
             const inputDate = document.getElementById("todoDate");
+            const newDate = new Date(inputDate.value);
+
+            const d = newDate.getFullYear() + "-" +  String(newDate.getMonth() + 1).padStart(2, "0") + "-" + String(newDate.getDate()).padStart(2, "0") + " " + String(newDate.getHours()).padStart(2, "0") + ":" + String(newDate.getMinutes()).padStart(2, "0");
 
             try {
                 const token = localStorage.getItem("token");
@@ -507,7 +528,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                         "Content-type": "application/json",
                         Authorization: "Bearer " + token,
                     },
-                    body: JSON.stringify({ title: inputLabel.value, due: inputDate.value })
+                    body: JSON.stringify({ title: inputLabel.value, due: d })
                 });
 
                 const data = await res.json();
@@ -903,7 +924,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         }
 
         const form = document.getElementById('form');
-        form.addEventListener("submit", function (e) {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const username = document.getElementById("username").value;
             const email = document.getElementById("email").value;
@@ -935,26 +956,146 @@ document.addEventListener("DOMContentLoaded", function(e){
             }
                 document.getElementById("warning").classList.add("hidden");
 
-            fetch(`${backend}/register_account`, {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ username, email, password })
-            })
-            .then(res => res.json())
-            .then(data => {
+
+            try {
+                const res = await fetch(`${backend}/register_account`, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ username, email, password })
+                })
+
+                const data = await res.json();
+            
                 if (!data.ok) {
                     document.getElementById("existemail").classList.remove("hidden");
                     document.getElementById("existuser").classList.remove("hidden");
                     document.getElementById("existuser").style.color = "red";
                     document.getElementById("existemail").style.color = "red";
                     return;
+                } else {
+                    localStorage.setItem("token", data.token);
+                    currentUser = data._id;
+                    window.location = "verify.html";
                 }
                 document.getElementById("exist").classList.add("hidden");
-                alert("Registration successful!");
-            })
-            .catch(err => console.error("Fetch error:", err));
+
+            } catch (err) {
+                console.error(err);
+            }
+        });
+        
+    }
+
+    const verificationPage = document.getElementById("verificationPage");
+    if(verificationPage) {
+        code.addEventListener("input", () => {
+            if(code.value === "") {
+                code.style.borderColor = "var(--subfc)";
+            }
+        });
+
+        async function loadUser(){
+            const yourEmail = document.getElementById("yourEmail");
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch(`${backend}/loadUser`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + token
+                    }
+                })
+
+                if (!res.ok){
+                    console.log("user not found");
+                    return;
+                }
+                const { user } = await res.json();
+                
+                yourEmail.textContent = user.email;
+
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        
+        loadUser();
+
+        const form = document.getElementById("verifyForm");
+        form.addEventListener("submit", async(e) => {
+            e.preventDefault();
+
+            const code = document.getElementById("code");
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch(`${backend}/loadUser`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + token
+                    }
+                })
+
+                if (!res.ok){
+                    console.log("cant find user");
+                    return;
+                }
+
+                console.log(token);
+
+                const data = await res.json();
+                document.getElementById("yourEmail").textContent = data.email;
+
+            } catch(err){
+                console.log(err)
+            }
+
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch(`${backend}/verify-email`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + token
+                    },
+                    body: JSON.stringify({  code: code.value.trim() }) 
+                }); 
+
+                const data = await res.json();
+                if(!res.ok){
+                    code.style.borderColor = "red";
+                    return;
+                }
+
+                window.location = "mainpage.html";
+
+                console.log(data);
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+        const resend = document.getElementById("resend");
+        resend.addEventListener("click", async (e) => {
+            e.preventDefault();
+            try{
+                const token = localStorage.getItem("token");
+                const res = await fetch(`${backend}/resend-code`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + token
+                    }
+                });
+
+                const data = await res.json();
+                if(!res.ok){
+                    console.log("did not do anything");
+                }
+                console.log(data);
+            } catch (err) {
+                console.log(err);
+            }
         });
     }
 });

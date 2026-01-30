@@ -19,7 +19,7 @@ const todoSchema = new Schema({
     },
 
     due: {
-        type: Date,
+        type: String,
         required: true
     }
 }, { timestamps: true });
