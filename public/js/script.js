@@ -1,4 +1,5 @@
 const currentUserId = getCurrentUser();
+// const backend `http://localhost:3000`;
 const backend = `https://stsa.onrender.com`;
 const ACTIVE_LIMIT = 1 * 60 * 1000;
 
@@ -38,6 +39,18 @@ function showHide(id, type){
     }
 }
 
+
+function checkRule(id, condition){
+    const item = document.getElementById(id);
+    
+    if (condition) {
+        item.classList.remove("hidden");
+        item.style.color = "green";
+    } else {
+        item.classList.add("hidden");
+        return;
+    }
+}
 
 function logout(event){
     event.preventDefault();
@@ -912,17 +925,6 @@ document.addEventListener("DOMContentLoaded", () => {
             checkRule("upper", /[A-Z]/.test(value));
         });
 
-        function checkRule(id, condition){
-            const item = document.getElementById(id);
-            
-            if (condition) {
-                item.classList.remove("hidden");
-                item.style.color = "green";
-            } else {
-                item.classList.add("hidden");
-            }
-        }
-
         const form = document.getElementById('form');
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -1093,6 +1095,81 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("did not do anything");
                 }
                 console.log(data);
+            } catch (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    const forgottenPassword = document.getElementById("forgotten");
+    if(forgottenPassword) {
+        document.getElementById("length").classList.add("hidden");
+        document.getElementById("number").classList.add("hidden");
+        document.getElementById("upper").classList.add("hidden");
+        const emailNotExist = document.getElementById("email_warning");
+        const passwordNotSame = document.getElementById("password_warning");
+        emailNotExist.classList.add("hidden");
+        passwordNotSame.classList.add("hidden");
+
+        const email = document.getElementById("lookForEmail");
+        const newPass = document.getElementById("newPass");
+        const confNewPass = document.getElementById("confNewPass");
+
+        email.addEventListener("input", () => {
+            if(email.value === ""){
+                email.style.borderColor = "var(--subfc)";
+                emailNotExist.classList.add("hidden");
+            }
+        });
+
+        newPass.addEventListener("input", () => {
+            
+            if(newPass.value === "") {
+                newPass.style.borderColor = "var(--subfc)";
+                passwordNotSame.classList.add("hidden");
+            }
+
+            checkRule("length", newPass.value.length >= 6);
+            checkRule("number", /[0-9!@#$%^&*]/.test(newPass.value));
+            checkRule("upper", /[A-Z]/.test(newPass.value));
+        });
+
+        confNewPass.addEventListener("input", () => {
+            if(confNewPass.value === "") {
+                confNewPass.style.borderColor = "var(--subfc)";
+                passwordNotSame.classList.add("hidden");
+            }
+        });
+
+        const forgot = document.getElementById('forgot');
+        forgot.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            if(newPass.value !== confNewPass.value) {
+                newPass.style.borderColor = "red";
+                confNewPass.style.borderColor = "red";
+                passwordNotSame.classList.remove("hidden");
+                passwordNotSame.style.color = "red";
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${backend}/forgot`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email: email.value , password: newPass.value })
+                })
+
+                if (!res.ok){
+                    emailNotExist.classList.remove("hidden");
+                    emailNotExist.style.color = "red";
+                    email.style.borderColor = "red";
+                    console.log("Wrong Email");
+                } else {
+                    window.location = "login.html";
+                }
             } catch (err) {
                 console.log(err);
             }

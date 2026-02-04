@@ -542,6 +542,33 @@ app.patch("/classes/:classId/joinClass", auth, async (req, res) => {
   }
 });
 
+app.patch("/forgot", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const emailExist = await User.findOne({ email: email });
+
+    if (!emailExist) {
+       return res.status(404).json({ error: "invalid Email" });
+    }
+
+    const changePass = await User.findOneAndUpdate(
+      { email },
+      { $set: { password: password }},
+      { new: true, runValidators: true }
+    );
+
+    if(!changePass){
+      return res.status(400).json({ error: "change password Failed" });
+    }
+
+    res.status(200).json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
 const PORT = 3000;
 
 app.listen(PORT, () => {

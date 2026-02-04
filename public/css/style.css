@@ -5,6 +5,7 @@
 @import url('keyframes.css');
 @import url('profile.css');
 @import url('verify.css');
+@import url('forgot.css');
 
 :root{
     --is: 25px;

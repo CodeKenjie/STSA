@@ -1,0 +1,26 @@
+#forgotten {
+    display: grid;
+    height: 100vh;
+    place-items: center;
+}
+
+#forgot {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background: var(--mainbg);
+    width: fit-content;
+    height: fit-content;
+    padding: 3em;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+}
+
+.passSpan {
+    display: grid;
+}
+
+.back {
+    display: grid;
+    gap: 1em;
+}

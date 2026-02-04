@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.T.S.A - Forgotten Password</title>
+    <link rel="icon" type="image/png" href="css/imgs/mainlogo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="forgotten" class="mainpage">
+    <form id="forgot">
+        <div>
+            <h1>Forgotten your password?</h1>
+        </div>
+        <span>
+            <p id="email_warning" class="reminder">*email doesnt exist</p>
+            <input id="lookForEmail" class="inputbox" type="text" placeholder="Email" required>
+        </span>
+        <span class="passSpan">
+            <p id="password_warning" class="reminder">*password not same</p>
+            <div class="pass">
+                <input id="newPass" class="inputbox" type="password" placeholder="New password" required><button class="showhide" type="button" onclick="showHide('loginShowHide', 'newPass')"><img id="loginShowHide" class="show" src="css/imgs/show.png"></button>
+            </div>
+            <ul id="checker">
+                <li id="length" class="strength">6 characters or longer</li>
+                <li id="number" class="strength">contain atleast 1 number or special characters</li>
+                <li id="upper" class="strength">contain uppercase letter</li>
+            </ul>
+            <div class="pass">
+                <input id="confNewPass" class="inputbox" type="password" placeholder="Confirm new password" required><button class="showhide" type="button" onclick="showHide('loginShowHide', 'confNewPass')"><img id="loginShowHide" class="show" src="css/imgs/show.png"></button>
+            </div>
+        </span>
+        <button class="submit" type="submit">Confirm</button>
+        <div class="back">
+            <a href="login.html">Login account</a>
+            <a href="register_account.html">Register new account</a>
+        </div>
+        <script src="js/script.js" defer></script>
+    </form>
+</body>
+</html>
