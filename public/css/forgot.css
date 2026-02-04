@@ -20,6 +20,10 @@
     display: grid;
 }
 
+#newPass, #confNewPass {
+    padding-right: 2em;
+}
+
 .back {
     display: grid;
     gap: 1em;
